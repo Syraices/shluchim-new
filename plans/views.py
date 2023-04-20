@@ -1,3 +1,18 @@
 from django.shortcuts import render
+from django.http import HttpResponse 
+from django.template.loader import render_to_string
+from django.urls import reverse
+from .models import Plan
 
-# Create your views here.
+def index(request):
+    plans = Plan.objects.all()
+    plan_list = {'plans': plans}
+    response_data = render_to_string("plans/plans.html", plan_list)
+    return HttpResponse(response_data)
+
+def plan(request, slug):
+    plan = Plan.objects.get(slug=slug)
+    print(request)
+    plan_details = {'plan': plan}
+    response_data = render_to_string("plans/plan.html", plan_details)
+    return HttpResponse(response_data)

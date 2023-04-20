@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+
+{% load static %}
+{% block extra_css%}
+    <link rel="stylesheet" href="{% static "plans/plans.css" %}">
+{% endblock %}
+{% block content %}
+<ul>
+    {% for plan in plans %}
+    <div>
+        <div class="card" style="color: {{plan.color}}" >
+            <div class="card-body">
+                <h5 class="card-title">{{plan.name}}</h5>
+                <h6>{{plan.provider}}</h6>
+                <p>{{plan.price}}</p>
+                <a href="{% url 'plan_detail' plan.slug %}" class="btn btn-primary" style="background-color: {{plan.color}}">Get Started</a>
+            </div>
+        </div>
+    </div>        
+    {% endfor %}
+</ul>
+
+
+
+{%endblock%}
+
