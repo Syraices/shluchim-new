@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+{% block content %}
+<p>{{user.email}}</p>
+
+<p>{{user.phone_number}}</p>
+
+<p>{{user.four_pin}}</p>
+
+<p>{{user.ship_name}}</p>
+
+{% comment %} <p>{{user.plan.name}}</p> {% endcomment %}
+
+{% for plan in plans %}
+    <p> {{plan.id}} </p>
+    <p> {{plan.name}} </p>
+    <p> {{plan.price}} </p>
+    <p> {{plan.provider}} </p>
+{% endfor %} 
+
+<a href="/plans">Change plan</a>
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+/* Modal Styles */
+.modal-content {
+    border-radius: 0;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+.modal-header {
+    background-color: #007bff;
+    color: #fff;
+}
+.modal-title {
+    font-weight: bold;
+}
+.modal-body {
+    padding: 20px;
+}
+.modal-footer {
+    justify-content: flex-start;
+}

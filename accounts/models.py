@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
     ship_zip = models.CharField(max_length=5) 
 
 
-    # REQUIRED_FIELDS = [ "phone_number", "four_pin", "ship_name", "ship_address", "ship_city", "ship_state", "ship_zip"]
+    REQUIRED_FIELDS = [ "phone_number", "four_pin", "ship_name", "ship_address", "ship_city", "ship_state", "ship_zip"]
 
     def __str__(self):
         return self.email

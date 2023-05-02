@@ -1,10 +1,9 @@
-{% extends '_base.html' %}
+{% extends 'plans/plan.html' %}
 {% load crispy_forms_tags %}
 
 {% block title %}Sign up{% endblock %}
 
 {% block content %}
-<h2>Sign up</h2>
 <form method="post">
   {% csrf_token %}
   {{ form|crispy }}
