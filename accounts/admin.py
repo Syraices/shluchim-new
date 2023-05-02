@@ -11,10 +11,10 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['email', 'link_to_change_form', 'phone_number']
+    list_display = ['id', 'email', 'link_to_change_form', 'phone_number']
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal Info', {'fields': ('email', 'ship_name', 'phone_number')}),
+        (None, {'fields': ('username',)}),
+        ('Personal Info', {'fields': ('email', 'ship_name', 'ship_address', 'phone_number')}),
         ('Plan', {'fields': ('plan_id',)})
     )
     def link_to_change_form(self, obj):
