@@ -15,8 +15,8 @@
                 <p>{{plan.price}}</p>
                 <p>{{plan.slug}}</p>
                 <div>
-                    <a href="/accounts/signup?plan_id={{ plan.id }}" class="btn btn-primary" >
-                      Get Started
+                    <a href="{% if id %}/my-account/change_profile/{{id}}{% else %}/accounts/signup{%endif%}?plan_id={{ plan.id }}" class="btn btn-primary" >
+                      {% if id %}Add/Change Plan{% else %}Get Started {% endif %}
                     </a>
                 </div>
         </div>

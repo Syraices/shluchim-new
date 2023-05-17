@@ -16,3 +16,11 @@ def plan(request, slug):
     plan_details = {'plan': plan}
     response_data = render_to_string("plans/plan.html", plan_details)
     return HttpResponse(response_data)
+
+def change_plan(request):
+    print(request.user)
+    plans = Plan.objects.all()
+    plan_list = {'plans': plans, 'id': request.user.id}
+    response_data = render_to_string("plans/change_plan.html", plan_list)
+
+    return HttpResponse(response_data)

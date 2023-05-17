@@ -1,0 +1,10 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %}
+    {{block.super}}
+        <form action="/emails/send_email/{{original.id}}" method="post" type="submit">
+            {% csrf_token %}
+            <button class="button historylink"> Send Email </button>
+        </form>
+
+{% endblock %}

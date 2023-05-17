@@ -17,6 +17,12 @@
     <p> {{plan.provider}} </p>
 {% endfor %} 
 
-<a href="/plans">Change plan</a>
+<a href="/plans/change_plan">Change plan</a>
+
+<form action="/emails/9" method="post" type="submit">
+    {% csrf_token %}
+    <button> send email </button>
+</form>
+{% comment %} <a href="/emails/9" method="post">email send</a> {% endcomment %}
 
 {% endblock content %}

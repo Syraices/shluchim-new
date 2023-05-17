@@ -1,5 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout
+from crispy_forms.bootstrap import InlineField, FormActions, InlineCheckboxes
+
+from django.contrib.auth import get_user_model
+from plans.models import Plan
+from .models import CustomUser
+
 
 from .models import CustomUser
 
@@ -23,6 +31,43 @@ class CustomUserForm(UserCreationForm):
             'plan_id': forms.HiddenInput(),
         }
 
-
-
+class CustomUserPlanChange(UserChangeForm):
+    plan_list = Plan.objects.all()
     
+
+    plan_id_box = forms.MultipleChoiceField(
+        required=True,
+        widget=forms.CheckboxSelectMultiple(attrs={'template':'templates/checkbox.html'}),
+        choices=(
+            (plan_list[0].name, plan_list[0].name),
+            (plan_list[1].name, plan_list[1].name)
+        )
+        
+    )
+    # plan_id_label = forms.CharField(label='Plan')
+    class Meta(UserChangeForm.Meta):
+
+        model = CustomUser
+        fields = ('plan_id_box',)
+        labels = {
+            'plan_id_box': 'Plan'
+        }
+        exclude = ("password",)
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            current_plan = self.request.user.plan_id
+            print("ftft")
+            print(current_plan)
+            print('current_plan')
+            self.helper = FormHelper()
+            self.helper.form_method = 'post'
+            self.helper.add_input(Submit('submit', 'Submit'))
+
+            self.helper.layout = Layout(
+                
+                InlineCheckboxes('plan_id', ),
+                FormActions(
+                    Submit('submit', 'Submit')
+                )
+            )

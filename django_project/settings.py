@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "accounts",
     "pages",
     "plans",
+    "emails",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -192,4 +193,12 @@ ACCOUNT_FORMS = {
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.MyAccountAdapter'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # or your email provider's SMTP server
+EMAIL_PORT = 587 # or the port used by your email provider's SMTP server
+EMAIL_USE_TLS = True # use TLS encryption for the connection
+EMAIL_HOST_USER = 'rdevcotest@gmail.com' # your email address
+EMAIL_HOST_PASSWORD = 'flgqjgjoegcqfssr' # your email password or app password
+
 
