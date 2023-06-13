@@ -29,10 +29,13 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "debug_toolbar",
+    # "usaepay",
     # Local
     "accounts",
     "pages",
     "plans",
+    "emails",
+    "subscriptions"
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -190,6 +193,24 @@ ACCOUNT_FORMS = {
     # 'set_password': 'allauth.account.forms.SetPasswordForm',
     # 'user_token': 'allauth.account.forms.UserTokenForm',
 }
+ACCOUNT_SIGNUP_REDIRECT_URL = "user_page"
 
 ACCOUNT_ADAPTER = 'accounts.adapter.MyAccountAdapter'
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com' # or your email provider's SMTP server
+# EMAIL_PORT = 587 # or the port used by your email provider's SMTP server
+# EMAIL_USE_TLS = True # use TLS encryption for the connection
+# EMAIL_HOST_USER = 'rdevcotest@gmail.com' # your email address
+# EMAIL_HOST_PASSWORD = 'flgqjgjoegcqfssr' # your email password or app password
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailgun.org' # or your email provider's SMTP server
+EMAIL_PORT = 587 # or the port used by your email provider's SMTP server
+EMAIL_USE_TLS = True # use TLS encryption for the connection
+EMAIL_HOST_USER = 'postmaster@sandbox44002e0122ca4fd090b4c7ca656a7020.mailgun.org' # your email address
+EMAIL_HOST_PASSWORD = '4dd6dcecf3f59a6b0d1a3c4a435eee8e-db4df449-b8375fd2' # your email password or app password
+DEFAULT_FROM_EMAIL = 'postmaster@sandbox44002e0122ca4fd090b4c7ca656a7020.mailgun.org'
+
+USAEPAY_SOURCE_KEY = '_wh3eJ1Uf0QCydt2z5534X1UDsojDGv4'
+USAEPAY_PIN = '1770'

@@ -7,7 +7,9 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", include("pages.urls")),
     path("plans/", include("plans.urls"), name="plans_list"),
-    path("my-account/", include("accounts.urls"))
+    path("emails/", include("emails.urls")),
+    path("my-account/", include("accounts.urls")),
+    path("subscribe/", include("subscriptions.urls")),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,11 @@
+<div>
+    <form action="/emails/send_email/{{email.id}}" method="post" type="submit">
+        {% csrf_token %}
+        <select name="user_email" id="user_email">
+            {% for user in users %}
+            <option value="{{user.email}}">{{user.email}}</option>
+            {% endfor %}
+        </select>
+        <button class="button historylink"> Send Email </button>
+    </form>
+</div>
