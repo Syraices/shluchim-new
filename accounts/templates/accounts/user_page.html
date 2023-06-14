@@ -1,29 +1,36 @@
 {% extends '_base.html' %}
 {% block content %}
-<h1>Hello plan</h1>
-<!--<p>{{user.email}}</p>-->
+<!--<h1>Hello plan</h1>-->
+<p>{{user.email}}</p>
 
-<!--<p>{{user.phone_number}}</p>-->
+<p>{{user.phone_number}}</p>
 
-<!--<p>{{user.four_pin}}</p>-->
+<p>{{user.four_pin}}</p>
 
-<!--<p>{{user.ship_name}}</p>-->
+<p>{{user.ship_name}}</p>
 
-<!--{% comment %} <p>{{user.plan.name}}</p> {% endcomment %}-->
+{% comment %} <p>{{user.plan.name}}</p> {% endcomment %}
 
-<!--{% for plan in plans %}-->
-<!--    <p> {{plan.id}} </p>-->
-<!--    <p> {{plan.name}} </p>-->
-<!--    <p> {{plan.price}} </p>-->
-<!--    <p> {{plan.provider}} </p>-->
-<!--{% endfor %} -->
+    <h5>Active Subscriptions</h5>
+    {% for sub in subs %}
+        <p> {{sub.id}} </p>
+        <p> Plan :{{sub.plan.name}} </p>
+        <p> Cost:  {{sub.plan.price}} </p>
+        <p> Provider: {{sub.plan.provider}} </p>
+        <p> ESIM: {{sub.esim}} </p>
+        <p> IMEI: {{sub.imei}} </p>
+    {% endfor %}
 
-<!--<a href="/plans/change_plan">Change plan</a>-->
+<a href="/plans/change_plan">Change plan</a>
 
-<!--<form action="/emails/9" method="post" type="submit">-->
-<!--    {% csrf_token %}-->
-<!--    <button> send email </button>-->
-<!--</form>-->
+<form action="/emails/9" method="post" type="submit">
+    {% csrf_token %}
+    <button> send email </button>
+</form>
 {% comment %} <a href="/emails/9" method="post">email send</a> {% endcomment %}
+
+{% if superuser %}
+    <a href="/admin">Back to Admin</a>
+{% endif %}
 
 {% endblock content %}

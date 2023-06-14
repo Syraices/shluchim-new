@@ -8,6 +8,9 @@ from django.shortcuts import render
 
 
 def create_subscription(request):
+    # usaepay.api.set_authentication("_wh3eJ1Uf0QCydt2z5534X1UDsojDGv4", "1770")
+
+
     pay_request = {
         "command": "sale",
         "amount": "500.00",
@@ -15,7 +18,7 @@ def create_subscription(request):
             "cardholder": "me",
             "number": "4000100011112224",
             "expiration": "0924",
-            "cvc": "123"        
+            "cvc": "123"
             },
         "billing_address": {
             "firstname": "John",
@@ -42,11 +45,11 @@ def create_subscription(request):
             "cost": "500.00",
             "qty": "1"
         }
-        
+
     }
     
-    # pay_response = usaepay.transactions(pay_request)
-
+    # pay_response = usaepay.Transactions(pay_request)
+    #
     # print(pay_response)
 
 
