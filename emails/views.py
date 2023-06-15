@@ -8,16 +8,16 @@ from accounts.models import CustomUser
 
 
 # Create your views here.
-def send_email(request, id):
-    email = Email.objects.get(id=id)
+def send_email(request, email_id):
+    email = Email.objects.get(id=email_id)
     users = CustomUser.objects.all()
 
-    print(id)
+    # print(id)
     if request.method == "GET":
-        details = {'users': users, 'email': email, 'id': id}
+        details = {'users': users, 'email': email, 'id': email_id}
         return render(request, 'emails/send_email.html', details)
     if request.method == 'POST':
-        print(id)
+        # print(id)
         selected_option = request.POST['user_email']
         user = CustomUser.objects.get(email=selected_option)
         email_content = email.email_content.replace("[fname]", user.ship_name)

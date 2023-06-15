@@ -9,7 +9,7 @@ from .models import Billing
 
 class BillingAdmin(admin.ModelAdmin):
     model = Billing
-    fields = ['id', 'user_id', 'plan_id', 'amount', 'date_of_payment']
+    fields = ['user_id', 'plan_id', 'amount', 'date_of_payment']
 
 
 admin.site.register(Billing, BillingAdmin)
