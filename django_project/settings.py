@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     "pages",
     "plans",
     "emails",
-    "subscriptions"
+    "subscriptions",
+    "billing"
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -193,7 +194,7 @@ ACCOUNT_FORMS = {
     # 'set_password': 'allauth.account.forms.SetPasswordForm',
     # 'user_token': 'allauth.account.forms.UserTokenForm',
 }
-ACCOUNT_SIGNUP_REDIRECT_URL = "user_page"
+ACCOUNT_SIGNUP_REDIRECT_URL = "plan_choose"
 
 ACCOUNT_ADAPTER = 'accounts.adapter.MyAccountAdapter'
 
@@ -215,3 +216,5 @@ DEFAULT_FROM_EMAIL = 'postmaster@sandbox44002e0122ca4fd090b4c7ca656a7020.mailgun
 USAEPAY_SOURCE_KEY = '_wh3eJ1Uf0QCydt2z5534X1UDsojDGv4'
 USAEPAY_PIN = '1770'
 USAEPAY_TEST_MODE = True
+
+APPEND_SLASH = False

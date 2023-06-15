@@ -8,7 +8,6 @@ class Plan(models.Model):
     price = models.IntegerField(null=True)
     provider = models.CharField(max_length=20, null=True)
     slug = models.SlugField(max_length=10, null=True)
-
     description = models.CharField(max_length=300, null=True)
 
     def __str__(self):

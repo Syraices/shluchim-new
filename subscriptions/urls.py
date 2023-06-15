@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.create_subscription, name='subscribe'),
+    path("<int:plan_id>", views.create_subscription, name='subscribe'),
    
 ]

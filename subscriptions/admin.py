@@ -6,7 +6,7 @@ from .models import Subscription
 
 class SubscriptionAdmin(admin.ModelAdmin):
     model = Subscription
-    fields = ['plan_id', 'user_id', 'is_active', 'imei', 'auto_sub', 'esim', 'esim_number']
+    fields = ['plan_id', 'user_id', 'is_active', 'imei', 'auto_sub', 'esim', 'esim_number', 'amount_owed']
 
 
 admin.site.register(Subscription, SubscriptionAdmin)

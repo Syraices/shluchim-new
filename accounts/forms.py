@@ -26,10 +26,32 @@ class CustomUserChangeForm(UserChangeForm):
 class CustomUserForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'phone_number', 'four_pin', 'ship_name')
-        # widgets = {
-        #     'plan_id': forms.HiddenInput(),
-        # }
+        fields = (
+            'username',
+            'email',
+            'phone_number',
+            'four_pin',
+            'ship_name',
+            'ship_address',
+            'ship_city',
+            'ship_state',
+            'ship_zip',
+            'is_billing'
+        )
+        widgets = {
+            'is_billing': forms.CheckboxInput,
+        }
+        labels = {
+            'username': 'Username',
+            'email': 'Email',
+            'four_pin': 'Four Digit Pin',
+            'ship_name': 'Name',
+            'ship_address': 'Address',
+            'ship_city': 'City',
+            'ship_state': 'State',
+            'ship_zip': 'Zipcode',
+            'is_billing': 'Billing is same as shipping'
+        }
 
 
 class CustomUserPlanChange(UserChangeForm):

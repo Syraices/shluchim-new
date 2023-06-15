@@ -11,6 +11,7 @@ from .models import CustomUser
 from plans.models import Plan
 from .forms import CustomUserPlanChange
 from subscriptions.models import Subscription
+from billing.models import Billing
 
 
 # Create your views here.
@@ -47,8 +48,8 @@ def user_page(request, user_id=None):
         subscription = []
         pass
     billing = 0
-    for sub in subscription:
-        billing += sub.plan_id.price
+    # for sub in subscription:
+    #     billing += int(sub.amount_owed)
 
     user_details = {'user': user, 'subs': subscription, 'superuser': request.user.is_superuser, }
     # for plan in plans:

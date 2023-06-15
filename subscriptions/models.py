@@ -13,6 +13,8 @@ class Subscription(models.Model):
     esim = models.BooleanField(default=True)
     imei = models.CharField(max_length=16, default=None)
     esim_number = models.CharField(max_length=25, default=None)
+    amount_owed = models.IntegerField(null=True)
+    phone_number = models.CharField(max_length=15, default=None, null=True)
     # is_billing = models.BooleanField(default=True)
 
     def __str__(self) -> str:
