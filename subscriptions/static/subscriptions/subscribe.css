@@ -1,0 +1,32 @@
+/* Container for the dropdown */
+
+
+/* Dropdown button */
+
+
+/* Dropdown content */
+.dropdown-content {
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Dropdown options */
+
+
+/* Hover effect on dropdown options */
+
+
+/* Selected option */
+
+
+/* Hide the dropdown content by default */
+.dropdown-content {
+  display: none;
+}
+
+/* Show the dropdown content when the button is hovered */
+.dropdown-container:hover .dropdown-content {
+  display: block;
+}

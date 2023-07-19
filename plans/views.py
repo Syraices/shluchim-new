@@ -3,9 +3,12 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from .models import Plan
+from accounts.models import CustomUser
 
 
 def index(request):
+    # if request.user:
+    #     user_person = CustomUser.objects.get(id=request.user.id)
     plans = Plan.objects.all()
     print(plans)
     plan_list = {'plans': plans}
@@ -13,8 +16,8 @@ def index(request):
     return HttpResponse(response_data)
 
 
-def plan(request, slug):
-    plan = Plan.objects.get(slug=slug)
+def plan(request, plan_id):
+    plan = Plan.objects.get(id=plan_id)
     # print(request)
     plan_details = {'plan': plan}
     response_data = render_to_string("plans/plan.html", plan_details)

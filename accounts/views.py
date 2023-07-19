@@ -78,3 +78,5 @@ def change_profile(request):
     return render(request, 'accounts/change_profile.html', {'form': form})
     # else:
     #     return render(request, '404.html')
+
+
