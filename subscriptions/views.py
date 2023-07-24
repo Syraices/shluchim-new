@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
-from .forms import SubscriptionForm
+from .forms import SubscriptionForm, SubscriptionAddForm
 from accounts.forms import CustomUserForm
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
+from django.contrib import messages
 from django.conf import settings
-from .models import SubPlan
+# from .models import SubPlan
 from plans.models import Plan
 from accounts.models import CustomUser
 from cart.models import Cart
@@ -24,8 +25,8 @@ def create_subscription(request, plan_id):
     # print(plan)
     # plan = plans[0]
 
-    usaepay.api.set_subdomain("sandbox")
-    usaepay.api.set_authentication('_92vEyY940q7x62fI202uza63HK84qWU', '1770')
+    # usaepay.api.set_subdomain("sandbox")
+    # usaepay.api.set_authentication('_92vEyY940q7x62fI202uza63HK84qWU', '1770')
     if request.method == 'POST':
         form_sub = SubscriptionForm(request.POST)
         form_user = CustomUserForm(request.POST)
@@ -40,7 +41,7 @@ def create_subscription(request, plan_id):
             user_info = CustomUser.objects.get(id=user_id)
 
             data['user_id'] = user_info
-            data['plan_id'] = [Plan.objects.get(id=plan_id)]
+            data['plan_id'] = plan
             print('line 53')
             # print(form_sub.data.get('plan_id'))
             print(data['plan_id'])
@@ -48,35 +49,25 @@ def create_subscription(request, plan_id):
 
             new_form = SubscriptionForm(data)
             # print('line 50')
-            # print(new_form.data.get('plan_id'))
-            # print(new_form.errors)
+            print(new_form.data.get('plan_id'))
+            print(new_form.errors)
 
             cart = None
             if new_form.is_valid():
-                # print("form_sub worked")
-                # print("cleaned")
-                #
-                # print(new_form.cleaned_data)
-                # print(new_form.cleaned_data['plan_id'])
-
                 new_form_res = new_form.save()
                 # print(new_form_res)
-                plan_list = []
-                plans_price = 0
-                for plan_id in data['plan_id']:
-                    plan_list += [plan_id]
-                    plans_price += plan_id.price
 
-                cart = Cart(user_id=user_info, price=plans_price)
-                print(cart.user_id)
+                cart = Cart(user_id=user_info, price=plan.price)
+                # print(cart.user_id)
                 # print(plan_list[0].name)
                 cart.full_clean()
+                print('cart')
                 print(cart)
                 cart_id = cart.save()
-                print(cart_id)
+                # print(cart_id)
 
-                cart.plan_ids.set(plan_list)
-                print(cart.plan_ids)
+                # cart.plan_ids.set(plan_list)
+                print(cart)
 
                 # pay_request = {
                 #     "command": "sale",
@@ -119,12 +110,14 @@ def create_subscription(request, plan_id):
                 # print("Response")
                 # print(pay_response)
 
-            return redirect('cart', cart_id=cart.id)
+                return redirect('cart', cart_id=cart.id)
 
         else:
 
             print('invalid')
             print(form_sub.errors)
+            return HttpResponseNotFound("No cart was created")
+
     else:
         form_sub = SubscriptionForm()
         form_sub.fields['plan_id'].initial = [plan]
@@ -138,3 +131,32 @@ def create_subscription(request, plan_id):
     # print(request)
 
     return render(request, 'subscriptions/subscribe.html', {'form_sub': form_sub, 'form_user': form_user, 'plan': plan})
+
+
+def add_plan(request, cart_id):
+    fail_message = None
+    if request.user:
+        if request.method == 'POST':
+            form = SubscriptionAddForm(request.POST)
+            print(form.errors)
+            if form.is_valid():
+                # user_info = CustomUser.objects.get(id=request.user.id)
+                form.cleaned_data['amount_owed'] = form.cleaned_data['plan_id'].price
+                # form.cleaned_data['user_id'] = user_info
+
+                print(form.cleaned_data['amount_owed'])
+                print(form.cleaned_data['user_id'])
+
+                saved_form = form.save()
+                print(saved_form)
+                return redirect('cart', cart_id=cart_id)
+
+            else:
+                fail_message = 'oops something went wrong, please try again'
+                return redirect('add_plan', cart_id=cart_id)
+        else:
+            form = SubscriptionAddForm()
+            form.fields['amount_owed'].initial = 1
+            form.fields['user_id'].initial = request.user
+
+            return render(request, 'subscriptions/add_sub.html', {'form': form, 'message': fail_message})

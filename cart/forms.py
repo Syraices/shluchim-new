@@ -10,3 +10,4 @@ class CartCreateForm(forms.ModelForm):
         widget = {
             'plan_ids': forms.HiddenInput(),
         }
+

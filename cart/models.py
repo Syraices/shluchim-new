@@ -8,7 +8,6 @@ from accounts.models import CustomUser
 # Create your models here.
 
 class Cart(models.Model):
-    plan_ids = models.ManyToManyField(Plan, blank=True)
     user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     price = models.IntegerField(null=True, default=None)
 

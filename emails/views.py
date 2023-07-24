@@ -1,3 +1,5 @@
+import smtplib
+
 from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
@@ -21,14 +23,16 @@ def send_email(request, email_id):
         selected_option = request.POST['user_email']
         user = CustomUser.objects.get(email=selected_option)
         email_content = email.email_content.replace("[fname]", user.ship_name)
-        send_mail(
-            email.subject_line,
-            email_content,
-            'rdevcotest@gmail.com',
-            [selected_option],
-            fail_silently=False,
-        )
-
+        try:
+            send_mail(
+                email.subject_line,
+                email_content,
+                'rdevcotest@gmail.com',
+                [selected_option],
+                fail_silently=False,
+            )
+        except smtplib.SMTPException as e:
+            print(e)
         return redirect('/admin')
     # print("not post")
     return redirect('/admin')
