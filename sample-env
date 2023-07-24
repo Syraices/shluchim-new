@@ -1,0 +1,13 @@
+
+SECRET_KEY =
+DEBUG =
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailgun.org' # or your email provider's SMTP server
+EMAIL_PORT = 587 # or the port used by your email provider's SMTP server
+EMAIL_USE_TLS = True # use TLS encryption for the connection
+EMAIL_HOST_USER =  # your email address
+EMAIL_HOST_PASSWORD =  # your email password or app password
+DEFAULT_FROM_EMAIL =
+
+AUTHORIZENET_API_LOGIN_ID =
+AUTHORIZENET_TRANSACTION_KEY =

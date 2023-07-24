@@ -8,65 +8,87 @@ from django.contrib.auth import get_user_model
 from plans.models import Plan
 from .models import CustomUser
 
-
 from .models import CustomUser
 
-class CustomUserCreationForm(UserCreationForm):
 
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = '__all__'
+
 
 class CustomUserChangeForm(UserChangeForm):
-
     class Meta:
         model = CustomUser
         fields = '__all__'
 
+
 class CustomUserForm(UserCreationForm):
-     class Meta:
+    class Meta:
         model = CustomUser
-        fields = ('plan_id', 'username', 'email', 'phone_number', 'four_pin', 'ship_name')
+        fields = (
+            'username',
+            'email',
+            'phone_number',
+            'four_pin',
+            'ship_name',
+            'ship_address',
+            'ship_city',
+            'ship_state',
+            'ship_zip',
+            'is_billing'
+        )
         widgets = {
-            'plan_id': forms.HiddenInput(),
+            'is_billing': forms.CheckboxInput,
         }
+        labels = {
+            'username': 'Username',
+            'email': 'Email',
+            'four_pin': 'Four Digit Pin',
+            'ship_name': 'Name',
+            'ship_address': 'Address',
+            'ship_city': 'City',
+            'ship_state': 'State',
+            'ship_zip': 'Zipcode',
+            'is_billing': 'Billing is same as shipping'
+        }
+
 
 class CustomUserPlanChange(UserChangeForm):
     plan_list = Plan.objects.all()
-    
 
-    plan_id_box = forms.MultipleChoiceField(
-        required=True,
-        widget=forms.CheckboxSelectMultiple(attrs={'template':'templates/checkbox.html'}),
-        choices=(
-            (plan_list[0].name, plan_list[0].name),
-            (plan_list[1].name, plan_list[1].name)
-        )
-        
-    )
+    # plan_id_box = forms.MultipleChoiceField(
+    #     required=True,
+    #     widget=forms.CheckboxSelectMultiple(attrs={'template': 'templates/checkbox.html'}),
+    #     choices=(
+    #         # (plan_list[0].name, plan_list[0].name),
+    #         # (plan_list[1].name, plan_list[1].name)
+    #     )
+    #
+    # )
+
     # plan_id_label = forms.CharField(label='Plan')
     class Meta(UserChangeForm.Meta):
-
         model = CustomUser
-        fields = ('plan_id_box',)
-        labels = {
-            'plan_id_box': 'Plan'
-        }
+        # fields = ('plan_id_box',)
+        # labels = {
+        #     'plan_id_box': 'Plan'
+        # }
         exclude = ("password",)
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
-            current_plan = self.request.user.plan_id
+            # current_plan = self.request.user.plan_id
             print("ftft")
-            print(current_plan)
+            # print(current_plan)
             print('current_plan')
             self.helper = FormHelper()
             self.helper.form_method = 'post'
             self.helper.add_input(Submit('submit', 'Submit'))
 
             self.helper.layout = Layout(
-                
-                InlineCheckboxes('plan_id', ),
+
+                # InlineCheckboxes('plan_id', ),
                 FormActions(
                     Submit('submit', 'Submit')
                 )

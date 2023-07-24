@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block extra_css%}
-    <link rel="stylesheet" href="{% static "plans/plans.css" %}">
+    <link rel="stylesheet" href="{% static 'plans/plans.css' %}">
 {% endblock %}
 {% block content %}
 <ul>
@@ -15,13 +15,14 @@
                 <p>{{plan.price}}</p>
                 <p>{{plan.slug}}</p>
                 <div>
-                    <a href="{% if id %}/my-account/change_profile/{{id}}{% else %}/accounts/signup{%endif%}?plan_id={{ plan.id }}" class="btn btn-primary" >
+                    <a href="{% if id %}/my-account/change_profile{% else %}/subscribe{%endif%}/{{ plan.id }}" class="btn btn-primary" >
                       {% if id %}Add/Change Plan{% else %}Get Started {% endif %}
                     </a>
                 </div>
+            </div>
         </div>
-    </div>        
     {% endfor %}
+    </div>
 </ul>
 
 

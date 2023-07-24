@@ -1,7 +1,21 @@
-version: '3.9'
+version: '3.3'
 
 services:
   web:
+    env_file:
+      - .env
+#      - SECRET_KEY=${SECRET_KEY}
+#      - DEBUG=True
+#      - EMAIL_BACKEND = ${EMAIL_BACKEND}
+#      - EMAIL_HOST = ${EMAIL_HOST} # or your email provider's SMTP server
+#      - EMAIL_PORT = ${EMAIL_PORT} # or the port used by your email provider's SMTP server
+#      - EMAIL_USE_TLS = ${EMAIL_USE_TLS} # use TLS encryption for the connection
+#      - EMAIL_HOST_USER = ${EMAIL_HOST_USER} # your email address
+#      - EMAIL_HOST_PASSWORD = ${EMAIL_HOST_USER} # your email password or app password
+#      - DEFAULT_FROM_EMAIL = ${DEFAULT_FROM_EMAIL}
+#      - AUTHORIZENET_API_LOGIN_ID = ${AUTHORIZENET_API_LOGIN_ID}
+#      - AUTHORIZENET_TRANSACTION_KEY = ${AUTHORIZENET_TRANSACTION_KEY}
+#      - PAY_FORM_LINK = ${PAY_FORM_LINK}
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
     volumes:
@@ -16,6 +30,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
+
 
 volumes:
   postgres_data:

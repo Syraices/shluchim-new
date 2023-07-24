@@ -7,6 +7,7 @@ from django.utils.html import format_html
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
+
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -15,12 +16,13 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username',)}),
         ('Personal Info', {'fields': ('email', 'ship_name', 'ship_address', 'phone_number')}),
-        ('Plan', {'fields': ('plan_id',)})
+        # ('Plan', {'fields': ('plan_id',)})
     )
+
     def link_to_change_form(self, obj):
         url = reverse('admin:accounts_customuser_change', args=[obj.pk])
         return format_html('<a href="{}">{}</a>', url, obj.username)
-        
+
     link_to_change_form.short_description = 'username (click to edit)'
 
 

@@ -1,0 +1,10 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %}
+    {{block.super}}
+        {% comment %} <form action="/emails/send_email/{{original.id}}" method="get" type="submit">
+            {% csrf_token %} {% endcomment %}
+            <a href="/emails/send_email/{{original.id}}" class="button historylink"> Send Email </a>
+        {% comment %} </form> {% endcomment %}
+
+{% endblock %}

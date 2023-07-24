@@ -21,3 +21,8 @@ requests-oauthlib==1.3.1
 sqlparse==0.4.3
 urllib3==1.26.14
 whitenoise==6.4.0
+usaepay==2.1.6
+
+django-debug-toolbar~=3.8.1
+python-dotenv
+authorizenet
