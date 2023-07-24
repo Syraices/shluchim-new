@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+
+<h1>CART</h1>
+
+<h3>In your Cart</h3>
+{% for plan in plans %}
+    <p>{{plan.provider}}</p>
+    <p>{{plan.name}}</p>
+    <p>price: {{plan.price}}</p>
+{% endfor %}
+
+<p>Total: {{cart.price}}</p>
+
+<a href="{% url 'add_plan' cart_id=cart.id %}">Add Plan</a>
+
+<form action="{{form_link}}">
+    <input type="hidden" name="UMamount" value="{{cart.price}}">
+    <input type="submit" class="btn btn-primary" value="Continue to Payment Form">
+</form>
+
+
+{% endblock %}
+
