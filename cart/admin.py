@@ -7,7 +7,7 @@ from .models import Cart
 
 class CartAdmin(admin.ModelAdmin):
     model = Cart
-    fields = [ 'price', 'user_id']
+    fields = ['price', 'user_id']
 
 
 admin.site.register(Cart, CartAdmin)
