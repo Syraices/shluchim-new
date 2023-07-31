@@ -19,6 +19,7 @@ from .models import Subscription
 
 def create_subscription(request, plan_id):
     print(request.method)
+    print("got to this point")
     plan = Plan.objects.get(id=plan_id)
     # cart = Cart.objects.get(id=cart_id)
     # plans = cart.plan_ids.all()
@@ -30,14 +31,14 @@ def create_subscription(request, plan_id):
     if request.method == 'POST':
         form_sub = SubscriptionForm(request.POST)
         form_user = CustomUserForm(request.POST)
-
+        print("GOt the forms")
         data = form_sub.data.copy()
 
         if form_user.is_valid():
 
             user_id = form_user.save()
             user_id = user_id.pk
-
+            print("saved user")
             user_info = CustomUser.objects.get(id=user_id)
 
             data['user_id'] = user_info
@@ -55,6 +56,7 @@ def create_subscription(request, plan_id):
             cart = None
             if new_form.is_valid():
                 new_form_res = new_form.save()
+                print("saved sub")
                 # print(new_form_res)
 
                 cart = Cart(user_id=user_info, price=plan.price)

@@ -28,6 +28,6 @@ def cart(request, cart_id):
 def webhook_success(request):
     if request.method == 'POST':
 
-        print(request)
+        print(request.body)
 
         return HttpResponse('valid', status=200)

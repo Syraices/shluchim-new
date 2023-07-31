@@ -39,11 +39,12 @@ INSTALLED_APPS = [
     "emails",
     "subscriptions",
     "billing",
-
+    "corsheaders",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -54,6 +55,21 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://850909bc193f-8990614792905054051.ngrok-free.app",  # Add your specific origin here
+    'https://*',  # Add your specific origin here
+]
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_METHODS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://850909bc193f-8990614792905054051.ngrok-free.app','dev.shluchimassist.com']
+
+
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "django_project.urls"

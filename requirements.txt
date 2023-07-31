@@ -26,3 +26,4 @@ usaepay==2.1.6
 django-debug-toolbar~=3.8.1
 python-dotenv
 authorizenet
+django-cors-headers
