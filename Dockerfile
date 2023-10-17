@@ -17,6 +17,9 @@ RUN set -ex && \
     pip install -r /tmp/requirements.txt && \
     rm -rf /root/.cache/
 
+RUN apt-get update && apt-get install -y cron
+
+
 
 # Copy local project
 COPY . /code/

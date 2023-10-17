@@ -12,13 +12,9 @@ from .models import Subscription
 
 class SubscriptionAdmin(admin.ModelAdmin):
     model = Subscription
-    fields = ['user_id', 'is_active', 'imei', 'auto_sub', 'esim', 'esim_number', 'amount_owed']
-    # filter_vertical = ('plan_id',)
-    # inlines = [SubPlotInline]
-
-
-# class SubPlanAdmin(admin.ModelAdmin):
-#     filter_horizontal = ('plan_id',)
+    fields = ['user_id', 'plan_id', 'is_active', 'imei', 'auto_sub', 'esim', 'esim_number', 'amount_owed', 'is_cancelled', 'ban_account', 'has_paid', 'phone_number']
+    list_display = ['user_id', 'is_active', 'created_at']
+    readonly_fields = ['created_at']
 
 
 admin.site.register(Subscription, SubscriptionAdmin)

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "subscriptions",
     "billing",
     "corsheaders",
+    "actionables",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -58,6 +59,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://850909bc193f-8990614792905054051.ngrok-free.app",  # Add your specific origin here
+    "https://sandbox.usaepay.com",
     'https://*',  # Add your specific origin here
 ]
 
@@ -67,7 +69,7 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_SAMESITE = 'Lax'
 CORS_ALLOW_HEADERS = ["*"]
 CORS_ALLOW_METHODS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://850909bc193f-8990614792905054051.ngrok-free.app','dev.shluchimassist.com']
+CSRF_TRUSTED_ORIGINS = ['https://850909bc193f-8990614792905054051.ngrok-free.app','https://dev.shluchimassist.com', 'https://sandbox.usaepay.com/pay/4nkt6jvx0scbbj68b/81AcxwVH', 'https://sandbox.usaepay.com',]
 
 
 
@@ -183,7 +185,7 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 SITE_ID = 1
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "user_page"
 
 # https://django-allauth.readthedocs.io/en/latest/views.html#logout-account-logout
 ACCOUNT_LOGOUT_REDIRECT_URL = "home"
@@ -194,12 +196,12 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = (False)
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = (True)
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = (False)
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = ("email")
-ACCOUNT_EMAIL_REQUIRED = (True)
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = (True)
 ACCOUNT_FORMS = {
     'signup': 'accounts.forms.CustomUserForm',
@@ -238,3 +240,4 @@ USE_X_FORWARDED_HOST = True
 
 
 CACHE_MIDDLEWARE_SECONDS = 0
+

@@ -1,33 +1,132 @@
 {% extends '_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+
 {% block content %}
-<!--<h1>Hello plan</h1>-->
-<p>{{user.email}}</p>
 
-<p>{{user.phone_number}}</p>
+<div class="container w-100 col-md-12 mb-3 ">
+    <div class="row">
+        <div class="col-md-4 mr-1">
+            <div class="card h-100 row mr-1">
+                    <div class="card-body">
+                        <h5 class="card-title">{{user.ship_fname}} {{user.ship_lname}}</h5>
+                        <p>Email: {{user.email}}</p>
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-4 mr-1">
+            <div class="card h-100 row no-gutters">
+                <div class="col-md-4">
+                    <img src="path_to_your_image.jpg" class="card-img-top" alt="Image Alt Text">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">AMOUNT DUE: $50.00</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 row no-gutters">
+                <div class="col-md-4">
+                    <img src="path_to_your_image.jpg" class="card-img-top" alt="Image Alt Text">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">DUE DATE: Sep 17, 2023</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>{{user.four_pin}}</p>
 
-<p>{{user.ship_name}}</p>
+  <div class="container p-0"  style="background-color: white">
+    <ul class="nav nav-tabs d-flex bg-light" id="accountTab" role="tablist">
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link active" id="activation-tab" data-bs-toggle="tab" href="#activation" role="tab">Active Subscriptions</a>
+      </li>
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active" role="tab">Active Accounts</a>
+      </li>
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link" id="overdue-tab" data-bs-toggle="tab" href="#overdue" role="tab">Overdue Accounts</a>
+      </li>
+    </ul>
 
-{% comment %} <p>{{user.plan.name}}</p> {% endcomment %}
+    <div class="tab-content mt-5" id="accountTabContent">
+      <div class="tab-pane fade show active" id="activation" role="tabpanel" aria-labelledby="activation-tab">
+        <table class="table table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th>Active Number</th>
+                    <th>BAN</th>
+                    <th>Plan</th>
+                    <th>Price</th>
+                    <th>Provider</th>
+                    <th>SIM</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-    <h5>Active Subscriptions</h5>
-    {% for sub in subs %}
-        <p> {{sub.id}} </p>
-        <p> Plan :{{sub.plan.name}} </p>
-        <p> Cost:  {{sub.plan.price}} </p>
-        <p> Provider: {{sub.plan.provider}} </p>
-        <p> ESIM: {{sub.esim}} </p>
-        <p> IMEI: {{sub.imei}} </p>
-    {% endfor %}
+            <tbody>
+            {% for sub in subs %}
+            {% if not sub.is_cancelled and sub.is_active %}
+            <tr>
+              <td>{{sub.phone_number}}</td>
+              <td>{{sub.ban_account.ban_number}}</td>
+              <td> {{sub.plan_id.name}} </td>
+              <td> {{sub.plan_id.price}} </td>
+              <td> {{sub.plan_id.provider}} </td>
+              <td> {{sub.esim_number}} </td>
+              <td><a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal" aria-controls="modal" >Cancel Plan</a></td>
+            </tr>
+          {% endif %}
+            <div class="modal" id="modal">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Cancel Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </div>
+                    <div class="modal-body">
+                        <form action="{% url 'del_plan' sub_id=sub.id %}" method="post">
+                            {% csrf_token %}
+                            <p>Are you sure you want to cancel your plan?</p>
+                             <div class="modal-footer">
+                                <button class="btn btn-danger" type="submit">Cancel your plan</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+      </div>
+          {% endfor %}
+            </tbody>
+        </table>
 
-<a href="/plans/change_plan">Change plan</a>
 
-<form action="/emails/9" method="post" type="submit">
-    {% csrf_token %}
-    <button> send email </button>
-</form>
-{% comment %} <a href="/emails/9" method="post">email send</a> {% endcomment %}
+      </div>
+      <div class="tab-pane fade" id="active" role="tabpanel" aria-labelledby="active-tab">
+        {% include 'actionables/sub_list.html' %}
+      </div>
+      <div class="tab-pane fade" id="overdue" role="tabpanel" aria-labelledby="overdue-tab">
+        {% include 'actionables/past-due.html' %}
+      </div>
+      <!-- ... Add more tab content as necessary -->
+    </div>
+  </div>
+
+
+
 
 {% if superuser %}
     <a href="/admin">Back to Admin</a>

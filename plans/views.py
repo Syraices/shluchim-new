@@ -7,27 +7,23 @@ from accounts.models import CustomUser
 
 
 def index(request):
-    # if request.user:
-    #     user_person = CustomUser.objects.get(id=request.user.id)
     plans = Plan.objects.all()
     print(plans)
     plan_list = {'plans': plans}
-    response_data = render_to_string("plans/plans.html", plan_list)
+    response_data = render_to_string("plans/plans.html", plan_list, request=request)
     return HttpResponse(response_data)
 
 
 def plan(request, plan_id):
     plan = Plan.objects.get(id=plan_id)
-    # print(request)
     plan_details = {'plan': plan}
-    response_data = render_to_string("plans/plan.html", plan_details)
+    response_data = render_to_string("plans/plan.html", plan_details, request=request)
     return HttpResponse(response_data)
 
 
 def change_plan(request):
-    # print(request.user)
     plans = Plan.objects.all()
     plan_list = {'plans': plans, 'id': request.user.id}
-    response_data = render_to_string("plans/change_plan.html", plan_list)
+    response_data = render_to_string("plans/change_plan.html", plan_list, request=request)
 
     return HttpResponse(response_data)

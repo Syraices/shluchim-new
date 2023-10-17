@@ -27,3 +27,4 @@ django-debug-toolbar~=3.8.1
 python-dotenv
 authorizenet
 django-cors-headers
+python-dateutil

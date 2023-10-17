@@ -1,0 +1,68 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+{% block content %}
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Order Number</th>
+            <th>Phone No</th>
+            <th>Sim Number</th>
+            <th>Plan</th>
+            <th>Suspension Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for plan in past_due %}
+            <tr>
+                <td>{{plan.user_id.ship_name}}</td>
+                <td>123456789</td>
+                <td>{{plan.phone_number}}</td>
+                <td>{{plan.esim_number}}</td>
+                <td>{{plan.plan_id.name}}</td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Deactivate</a></li>
+                            <li><a class="dropdown-item" href="#">Close</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Plan {{plan.plan_id.name}}</p>
+                            <p>Address    {{plan.user_id.ship_address}}</p>
+                            <form action="{% url 'deactivate_user' sub_id=plan.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-success" type="submit">Deactivate</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

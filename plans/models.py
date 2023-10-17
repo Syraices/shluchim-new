@@ -12,3 +12,13 @@ class Plan(models.Model):
 
     def __str__(self):
         return f"{self.name}: {self.provider} - {self.price}"
+
+
+class BanAccount(models.Model):
+    ban_number = models.CharField(max_length=100, default="00000000")
+    ban_name = models.CharField(max_length=100)
+    subs_amount = models.IntegerField()
+
+
+    def __str__(self):
+        return f"{self.ban_name} - {self.ban_number}"

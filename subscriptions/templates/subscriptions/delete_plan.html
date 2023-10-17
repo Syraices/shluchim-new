@@ -1,0 +1,7 @@
+<div style="width:200px, height:200px">
+    <form action="{% url 'del_plan' sub_id=sub_id %}" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete?</p>
+        <button class="btn btn-warning" type="submit">DELETE</button>
+    </form>
+</div>

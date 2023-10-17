@@ -1,0 +1,43 @@
+
+{% block content %}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Sim Number</th>
+            <th>Plan</th>
+            <th>BAN</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for sub in sub_list %}
+        <tr>
+
+                <td><a href="{% url 'admin_user_page' user_id=sub.user_id.id %}">{{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}</a></td>
+                <td>{{sub.phone_number}}</td>
+                <td>{{sub.esim}}</td>
+                <td>{{sub.plan_id.name}}</td>
+                <td>{{sub.ban_account}}</td>
+                <td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Something to do</li>
+                                <li><a class="dropdown-item" href="#">Close</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </td>
+        </tr>
+
+
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

@@ -11,7 +11,7 @@ from .models import Billing
 
 class BillingAdmin(admin.ModelAdmin):
     model = Billing
-    fields = ['user_id', 'amount', 'date_of_payment']
+    fields = ['user_id', 'amount', 'date_of_payment', 'subscription']
 
 
 admin.site.register(Billing, BillingAdmin)

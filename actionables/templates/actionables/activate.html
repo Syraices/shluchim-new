@@ -1,0 +1,88 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Order Number</th>
+            <th>Porting No</th>
+            <th>IMEI</th>
+            <th>Sim Number</th>
+            <th>Plan</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for sub in activate %}
+            <tr>
+                <td>{{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}</td>
+                <td>123456789</td>
+                <td>{{sub.phone_number}}</td>
+                <td>{{sub.imei}}</td>
+                <td>{{sub.esim_number}}</td>
+                <td>{{sub.plan_id.name}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#sampleModal">Activate</li>
+                            <li><a class="dropdown-item" href="#">Close</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <div class="modal fade" id="sampleModal" tabindex="-1" aria-labelledby="sampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="sampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                <ul class="list-unstyled">
+                                    <li class="row">
+                                        <div class="col-sm-6">Plan</div>
+                                        <div class="col-sm-6 text-sm-end">{{sub.plan_id.name}}</div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col-sm-6">Address</div>
+                                        <div class="col-sm-6 text-sm-end">{{sub.user_id.ship_address}}</div>
+                                    </li>
+                                    <!-- ... -->
+                                </ul>
+                            <form action="{% url 'activate_user' sub_id=sub.id%}" method="post">
+                                {% csrf_token %}
+
+                                <div>
+                                    <input class="form-control" id="phone_number" placeholder="Phone number" name="phone_number" />
+                                </div>
+                                <div class="input-group">
+                                    <input list="fruits" class="form-control" placeholder="BAN Account" name="ban_account">
+
+                                    <datalist id="fruits">
+                                    {% for account in ban_accounts %}
+                                    <option value="{{account.ban_name}}: {{account.ban_number}}">
+                                    {% endfor %}
+                                    </datalist>
+                                </div>
+                                <div>
+                                    <button class="btn btn-success" type="submit">Activate</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+

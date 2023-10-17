@@ -1,0 +1,37 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div style="background-color: white">
+  <div class="container" >
+    <ul class="nav nav-tabs d-flex" id="accountTab" role="tablist">
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link active" id="activation-tab" data-bs-toggle="tab" href="#activation" role="tab">For Activation</a>
+      </li>
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active" role="tab">Active Accounts</a>
+      </li>
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link" id="overdue-tab" data-bs-toggle="tab" href="#overdue" role="tab">Overdue Accounts</a>
+      </li>
+      <!-- ... Add more tabs as necessary -->
+    </ul>
+
+    <div class="tab-content" id="accountTabContent">
+      <div class="tab-pane fade show active" id="activation" role="tabpanel" aria-labelledby="activation-tab">
+        {% include 'actionables/activate.html' %}
+      </div>
+      <div class="tab-pane fade" id="active" role="tabpanel" aria-labelledby="active-tab">
+        {% include 'actionables/sub_list.html' %}
+      </div>
+      <div class="tab-pane fade" id="overdue" role="tabpanel" aria-labelledby="overdue-tab">
+        {% include 'actionables/past-due.html' %}
+      </div>
+      <!-- ... Add more tab content as necessary -->
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
