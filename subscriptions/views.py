@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from .forms import SubscriptionForm, SubscriptionAddForm
 from accounts.forms import CustomUserForm
@@ -137,6 +138,7 @@ def activate_plan(request, sub_id):
         return render(request, 'subscriptions/activate.html', {'sub': sub})
     elif request.method == 'POST':
         sub.is_active = True
+        sub.activation_date = timezone.now()
         sub.phone_number = phone_number
         sub.ban_account = BanAccount.objects.get(ban_number=ban_account[1])
         sub.save()
@@ -148,7 +150,8 @@ def deactivate_plan(request, sub_id):
     if request.method == 'GET':
         return HttpResponseNotFound('<h1>Resource not found</h1>')
     elif request.method == 'POST':
-        sub.is_active = False
+        # sub.is_active = False
+        sub.is_suspended = True
         sub.save()
         return redirect("actions_queue")
 

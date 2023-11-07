@@ -1,6 +1,6 @@
 
 {% block content %}
-<table class="table table-bordered table-hover">
+<table class="table table-bordered-horizontal table-hover">
     <thead>
         <tr>
             <th>Name</th>
@@ -14,7 +14,6 @@
     <tbody>
 {% for sub in sub_list %}
         <tr>
-
                 <td><a href="{% url 'admin_user_page' user_id=sub.user_id.id %}">{{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}</a></td>
                 <td>{{sub.phone_number}}</td>
                 <td>{{sub.esim}}</td>

@@ -29,3 +29,6 @@ body, html {
     border-bottom: 2px solid #dee2e6; /* This color is Bootstrap's default border color, you can adjust it if needed */
 }
 
+li.row {
+    margin-bottom: 20px;
+}

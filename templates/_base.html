@@ -23,13 +23,36 @@
 </head>
 
 <body >
-<div class="d-flex flex-column min-vh-100" style="100%">
+<div class="container-fluid vh-100">
+    {% if user.is_superuser %}
+
+        <div class="d-flex flex-row flex-grow-1">
+        <!-- Sidebar -->
+
+        <div class="col-md-2 p-3 bg-light d-flex flex-column vh-100" >
+            <a href="/" class="d-flex align-items-center mb-2  text-dark text-decoration-none">
+          <img src="{% static 'images/Sassist-Logo.png' %}" />
+        </a>
+            <h3>Sidebar</h3>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Another Link</a>
+                </li>
+            </ul>
+        </div>
+{% endif %}
+
+<div class="d-flex flex-column w-100" style="100%">
   <header class="p-3 mb-3 border-bottom">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-          <img src="{% static 'images/Sassist-Logo.png' %}" />
-        </a>
+
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
@@ -63,42 +86,18 @@
       </div>
     </div>
   </header>
-  <div class="container-fluid vh-100">
-        {% if user.is_superuser %}
-        <div class="d-flex flex-row flex-grow-1">
-        <!-- Sidebar -->
-        <div class="col-md-2 p-3 bg-light d-flex flex-column vh-100" >
-            <h3>Sidebar</h3>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Another Link</a>
-                </li>
-            </ul>
-        </div>
-{% endif %}
 
-
-
-
-      <div class="{% if user.is_superuser %} col-md-10 {% endif %} p-3 m-0 d-flex flex-column" style="background-color: #f0f0f0;">
+      <div class="{% if user.is_superuser %} col-md-10 {% endif %} w-100 d-flex flex-column" style="background-color: #f0f0f0;">
         {% block content %}
         <p>Default content...</p>
         {% endblock content %}
       </div>
-
     </div>
-  </div>
+        </div>
 </div>
 
 
    <!-- Modal -->
-
 
 
   {% block javascript %}

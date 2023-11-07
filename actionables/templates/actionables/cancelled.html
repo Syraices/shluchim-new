@@ -1,0 +1,37 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+{% block content %}
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Order Number</th>
+            <th>Phone No</th>
+            <th>Sim Number</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for account in cancelled_accounts %}
+            <tr>
+                <td>{{account.user_id.ship_fname}} {{account.user_id.ship_lname}}</td>
+                <td>1234567890</td>
+                <td>{{account.phone_number}}</td>
+                <td>{{account.esim_number}}</td>
+                <td>{{account.plan_id.name}}</td>
+                <td>{% if account.is_suspended %} Inactive {% else %} Active {% endif %}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+

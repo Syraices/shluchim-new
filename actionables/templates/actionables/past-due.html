@@ -21,20 +21,20 @@
 
         {% for plan in past_due %}
             <tr>
-                <td>{{plan.user_id.ship_name}}</td>
+                <td>{{plan.sub.user_id.ship_fname}} {{plan.sub.user_id.ship_lname}}</td>
                 <td>123456789</td>
-                <td>{{plan.phone_number}}</td>
-                <td>{{plan.esim_number}}</td>
-                <td>{{plan.plan_id.name}}</td>
-                <td></td>
-                <td></td>
+                <td>{{plan.sub.phone_number}}</td>
+                <td>{{plan.sub.esim_number}}</td>
+                <td>{{plan.sub.plan_id.name}}</td>
+                <td>{{plan.overdue_date}}</td>
+                <td>{% if plan.sub.is_active %} Active{% else %} Inactive{% endif %}</td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             Actions
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Deactivate</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Suspend</a></li>
                             <li><a class="dropdown-item" href="#">Close</a></li>
                         </ul>
                     </div>
@@ -48,9 +48,9 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Plan {{plan.plan_id.name}}</p>
-                            <p>Address    {{plan.user_id.ship_address}}</p>
-                            <form action="{% url 'deactivate_user' sub_id=plan.id %}" method="post">
+                            <p>Plan {{plan.sub.plan_id.name}}</p>
+                            <p>Address    {{plan.sub.user_id.ship_address}}</p>
+                            <form action="{% url 'deactivate_user' sub_id=plan.sub.id %}" method="post">
                                 {% csrf_token %}
                                 <button class="btn btn-success" type="submit">Deactivate</button>
                             </form>

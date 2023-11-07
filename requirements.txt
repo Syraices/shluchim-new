@@ -28,3 +28,4 @@ python-dotenv
 authorizenet
 django-cors-headers
 python-dateutil
+pytz

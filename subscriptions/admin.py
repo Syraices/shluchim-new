@@ -12,8 +12,8 @@ from .models import Subscription
 
 class SubscriptionAdmin(admin.ModelAdmin):
     model = Subscription
-    fields = ['user_id', 'plan_id', 'is_active', 'imei', 'auto_sub', 'esim', 'esim_number', 'amount_owed', 'is_cancelled', 'ban_account', 'has_paid', 'phone_number']
-    list_display = ['user_id', 'is_active', 'created_at']
+    fields = ['user_id', 'plan_id', 'is_active', 'imei', 'auto_sub', 'esim', 'esim_number', 'amount_owed', 'is_cancelled', 'activation_date', 'ban_account', 'has_paid', 'phone_number', 'is_suspended']
+    list_display = ['id', 'user_id', 'is_active', 'created_at']
     readonly_fields = ['created_at']
 
 

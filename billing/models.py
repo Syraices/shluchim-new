@@ -13,7 +13,7 @@ class Billing(models.Model):
     pass
 
     def __str__(self) -> str:
-        return f"{self.user_id}"
+        return f"{self.user_id}, {self.date_of_payment}, {self.subscription}"
 
 
 

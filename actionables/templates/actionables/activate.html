@@ -48,11 +48,15 @@
                                 <ul class="list-unstyled">
                                     <li class="row">
                                         <div class="col-sm-6">Plan</div>
-                                        <div class="col-sm-6 text-sm-end">{{sub.plan_id.name}}</div>
+                                        <div class="col-sm-6 text-sm-center">{{sub.plan_id.name}}</div>
                                     </li>
                                     <li class="row">
                                         <div class="col-sm-6">Address</div>
-                                        <div class="col-sm-6 text-sm-end">{{sub.user_id.ship_address}}</div>
+                                        <div class="col-sm-6 text-sm-center">{{sub.user_id.ship_address}}  {{sub.user_id.ship_city}}, {{sub.user_id.ship_state}}  {{sub.user_id.ship_zip}}</div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col-sm-6">IMEI</div>
+                                        <div class="col-sm-6 text-sm-center">{{sub.imei}}</div>
                                     </li>
                                     <!-- ... -->
                                 </ul>
@@ -60,10 +64,10 @@
                                 {% csrf_token %}
 
                                 <div>
-                                    <input class="form-control" id="phone_number" placeholder="Phone number" name="phone_number" />
+                                    <input class="form-control border-0 border-bottom" id="phone_number" value="{%if sub.phone_number %}{{sub.phone_number}}{% endif %}" placeholder="Phone number" name="phone_number" />
                                 </div>
                                 <div class="input-group">
-                                    <input list="fruits" class="form-control" placeholder="BAN Account" name="ban_account">
+                                    <input list="fruits" class="form-control border-0 border-bottom" placeholder="BAN Account" name="ban_account">
 
                                     <datalist id="fruits">
                                     {% for account in ban_accounts %}
@@ -72,7 +76,7 @@
                                     </datalist>
                                 </div>
                                 <div>
-                                    <button class="btn btn-success" type="submit">Activate</button>
+                                    <button class="btn btn-success m-3" type="submit">Activate</button>
                                 </div>
                             </form>
                         </div>
