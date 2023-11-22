@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 
 {% block content %}
+{% if user and user.is_authenticated and user.is_superuser %}
 <div class="w-100" style="background-color: white">
   <div class="container w-100" >
     <ul class="nav nav-tabs d-flex" id="accountTab" role="tablist">
@@ -42,6 +43,12 @@
     </div>
   </div>
 </div>
+{% else %}
+<div>
+  <p>You are not authorized</p>
+</div>
+{% endif %}
+
 
 
 

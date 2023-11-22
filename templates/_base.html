@@ -87,7 +87,7 @@
     </div>
   </header>
 
-      <div class="{% if user.is_superuser %} col-md-10 {% endif %} w-100 d-flex flex-column" style="background-color: #f0f0f0;">
+      <div class="{% if user.is_superuser %} col-md-10 {% endif %} w-100 d-flex flex-column">
         {% block content %}
         <p>Default content...</p>
         {% endblock content %}

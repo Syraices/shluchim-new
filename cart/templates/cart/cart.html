@@ -1,29 +1,50 @@
 {% extends '_base.html' %}
-
+{% load static %}
 
 {% block content %}
+<div class="d-flex justify-content-center">
+    <div class="col-md-3 card d-flex justify-content-center p-3 shadow-sm">
+        <div class="card-header" >
+            <h1>CART</h1>
+            <h3>In your Cart</h3>
+        </div>
+        <div class="card-body" >
+            {% if cart %}
+            {% for plan in plans %}
+            <div class="card m-3">
+                <div class="card-header">                     
+                    <div class="row">
+                        <div class="col-md-10"><p>{{plan.provider}}</p></div>
+                        <div class="col-md-2"><img src="/static/cart/{{plan.provider}}.png" class="img-fluid"></div>
+                    </div>
 
-<h1>CART</h1>
+                </div>
+                    <p>{{plan.name}}</p>
+                    <p>price: {{plan.price}}</p>
+            </div>
 
-<h3>In your Cart</h3>
-{% if cart %}
-{% for plan in plans %}
-    <p>{{plan.provider}}</p>
-    <p>{{plan.name}}</p>
-    <p>price: {{plan.price}}</p>
-{% endfor %}
+            {% endfor %}
 
-<p>Total: {{total}}</p>
+            <div class="card-footer" >
+                <p>Total: {{total}}</p>
+                <a href="{% url 'add_plan' %}">Add Plan</a>
 
-<a href="{% url 'add_plan' %}">Add Plan</a>
+                <form action="{{form_link}}">
+                    <input type="hidden" name="UMamount" value="{{total}}">
+                    <input type="hidden" name="UMaddcustomer" value="yes">
+                    <input type="hidden" name="UMcustom1" value="{{cart.user_id.id}}">
+                    <input type="hidden" name="UMcomments" value="{{cart.user_id.id}}">
+                    <input type="hidden" name="UMdescription" value="{{cart_info}}">
+                    <input type="submit" class="btn btn-primary" value="Continue to Payment Form" formtarget="_blank">
+                </form>
+            </div>
 
-<form action="{{form_link}}">
-    <input type="hidden" name="UMamount" value="{{total}}">
-    <input type="submit" class="btn btn-primary" value="Continue to Payment Form" formtarget="_blank">
-</form>
-{% else %}
-<p>{{message}}</p>
-{% endif %}
+            {% else %}
+            <p>{{message}}</p>
+        {% endif %}
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

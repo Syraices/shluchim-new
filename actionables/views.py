@@ -8,39 +8,45 @@ from django.db.models import Q
 from subscriptions.forms import SubscriptionActivateForm
 from plans.models import BanAccount
 from django.utils import timezone
+from django.contrib.auth.decorators import user_passes_test
 import pytz
 
 # Create your views here.
 
-def check_monthly_payments(request):
-    current_date = datetime.now().date()
+def superuser_check(user):
+    return user.is_superuser
 
 
-    one_month_ago = current_date - relativedelta(months=1)
-    overdue_subs = Subscription.objects.exclude(billing__date_of_payment__gte=one_month_ago)
+# def check_monthly_payments(request):
+#     current_date = datetime.now().date()
+#
+#
+#     one_month_ago = current_date - relativedelta(months=1)
+#     overdue_subs = Subscription.objects.exclude(billing__date_of_payment__gte=one_month_ago)
+#
+#     print("crontab worked")
+#     print(current_date)
+#     print(one_month_ago)
+#     for overdue in overdue_subs:
+#         print(overdue)
+#
+#     data = {"overdue_users": overdue_subs, }
+#
+#     return render(request, "actionables/past-due.html", data)
+#
+#
+# def activation_queue(request):
+#     subs_for_activation = Subscription.objects.filter(Q(has_paid=True) & Q(is_cancelled=False) & Q(is_active=False))
+#     print(subs_for_activation)
+#     return render(request, "actionables/activate.html", {"subs": subs_for_activation})
+#
+#
+# def list_of_actives(request):
+#     active_subs = Subscription.objects.filter(is_active=True)
+#
+#     return render(request, "actionables/sub_list.html", {"subs": active_subs})
 
-    print("crontab worked")
-    print(current_date)
-    print(one_month_ago)
-    for overdue in overdue_subs:
-        print(overdue)
-
-    data = {"overdue_users": overdue_subs, }
-
-    return render(request, "actionables/past-due.html", data)
-
-
-def activation_queue(request):
-    subs_for_activation = Subscription.objects.filter(Q(has_paid=True) & Q(is_cancelled=False) & Q(is_active=False))
-    print(subs_for_activation)
-    return render(request, "actionables/activate.html", {"subs": subs_for_activation})
-
-
-def list_of_actives(request):
-    active_subs = Subscription.objects.filter(is_active=True)
-
-    return render(request, "actionables/sub_list.html", {"subs": active_subs})
-
+@user_passes_test(superuser_check)
 
 def main_actions(request):
     ban_accounts = BanAccount.objects.all()
@@ -60,25 +66,13 @@ def main_actions(request):
     # print(overdue_subs)
 
     for sub in overdue_subs:
-        # print(sub.billing_set.all())
         activation = sub.activation_date
-        # print(timezone.is_naive(activation))
-        # print(timezone.is_aware(activation))
-        # if timezone.is_naive(activation):
-        #     activation = timezone.make_aware(activation)
-        #     print(activation)
-        # print(sub.billing_set.count())
+
 
         if sub.billing_set.count() > 0:
             due_date = sub.billing_set.order_by('-date_of_payment').first().date_of_payment
-            # activation_date = sub.activation_date
-            # print(activation)
-            # print(timezone.is_naive(current_date))
-            # print(timezone.is_aware(current_date))
             activation_months = relativedelta(current_date, activation).months
-            # print(activation_months)
             last_due_date = activation + relativedelta(months=activation_months)
-            print(last_due_date)
             if last_due_date > current_date:
                 last_due_date = last_due_date - relativedelta(months=1)
 
@@ -88,9 +82,6 @@ def main_actions(request):
                 od_subs_arr.append({'sub': sub, 'overdue_date': suspension_date.date()})
 
             print(last_due_date)
-            #
-            # print(sub.billing_set.order_by('-date_of_payment').first().date_of_payment)
-            # print(due_date)
 
     activate_form = SubscriptionActivateForm()
 

@@ -128,6 +128,7 @@ def admin_user(request, user_id):
     return render(request, 'subscriptions/admin_user.html',{'subs': subs})
 
 def activate_plan(request, sub_id):
+    print("This is the sub id", sub_id)
     print(request.POST.get('ban_account').split(': '))
 
     phone_number = request.POST.get('phone_number')

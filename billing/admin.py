@@ -4,17 +4,19 @@ from django.contrib import admin
 from django.contrib import admin
 
 from .models import Billing
-
+from subscriptions.models import Subscription
 
 # Register your models here.
 
 
 class BillingAdmin(admin.ModelAdmin):
     model = Billing
-    fields = ['user_id', 'amount', 'date_of_payment']
-    list_display = ['get_billing_id']
+    fields = ['user_id', 'amount', 'date_of_payment', 'subscription']
+    list_display = ['get_billing_id', 'date_of_payment']
 
     def get_billing_id(self, obj):
-        return obj.subscription.id
+        print("hello")
+        print(obj)
+        return obj.subscription.id if obj.subscription else None
 
 admin.site.register(Billing, BillingAdmin)

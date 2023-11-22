@@ -63,6 +63,7 @@
         <table class="table table-borderless table-hover">
             <thead>
                 <tr>
+                    <th>Order Number</th>
                     <th>Active Number</th>
                     <th>BAN</th>
                     <th>Plan</th>
@@ -77,6 +78,7 @@
             {% for sub in subs %}
             {% if not sub.is_cancelled and sub.is_active %}
             <tr>
+              <td>{{sub.id}}</td>
               <td>{{sub.phone_number}}</td>
               <td>{{sub.ban_account.ban_number}}</td>
               <td> {{sub.plan_id.name}} </td>
@@ -110,8 +112,10 @@
             </div>
       </div>
           {% endfor %}
+
             </tbody>
         </table>
+        <a href="{% url 'add_plan' %}">Add Plan</a>
 
 
       </div>

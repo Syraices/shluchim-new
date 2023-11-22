@@ -20,7 +20,7 @@
         {% for sub in activate %}
             <tr>
                 <td>{{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}</td>
-                <td>123456789</td>
+                <td>{{sub.id}}</td>
                 <td>{{sub.phone_number}}</td>
                 <td>{{sub.imei}}</td>
                 <td>{{sub.esim_number}}</td>
@@ -31,35 +31,35 @@
                             Actions
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#sampleModal">Activate</li>
+                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal{{sub.id}}">Activate</li>
                             <li><a class="dropdown-item" href="#">Close</a></li>
                         </ul>
                     </div>
                 </td>
             </tr>
-            <div class="modal fade" id="sampleModal" tabindex="-1" aria-labelledby="sampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modal{{sub.id}}" tabindex="-1" aria-labelledby="modal{{sub.id}}Label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="sampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="{{sub.id}}Label">Modal title</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                                <ul class="list-unstyled">
-                                    <li class="row">
-                                        <div class="col-sm-6">Plan</div>
-                                        <div class="col-sm-6 text-sm-center">{{sub.plan_id.name}}</div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-sm-6">Address</div>
-                                        <div class="col-sm-6 text-sm-center">{{sub.user_id.ship_address}}  {{sub.user_id.ship_city}}, {{sub.user_id.ship_state}}  {{sub.user_id.ship_zip}}</div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-sm-6">IMEI</div>
-                                        <div class="col-sm-6 text-sm-center">{{sub.imei}}</div>
-                                    </li>
+                            <ul class="list-unstyled">
+                                <li class="row">
+                                    <div class="col-sm-6">Plan</div>
+                                    <div class="col-sm-6 text-sm-center">{{sub.plan_id.name}}</div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-sm-6">Address</div>
+                                    <div class="col-sm-6 text-sm-center">{{sub.user_id.ship_address}}  {{sub.user_id.ship_city}}, {{sub.user_id.ship_state}}  {{sub.user_id.ship_zip}}</div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-sm-6">IMEI</div>
+                                    <div class="col-sm-6 text-sm-center">{{sub.imei}}</div>
+                                </li>
                                     <!-- ... -->
-                                </ul>
+                            </ul>
                             <form action="{% url 'activate_user' sub_id=sub.id%}" method="post">
                                 {% csrf_token %}
 
@@ -70,9 +70,9 @@
                                     <input list="fruits" class="form-control border-0 border-bottom" placeholder="BAN Account" name="ban_account">
 
                                     <datalist id="fruits">
-                                    {% for account in ban_accounts %}
-                                    <option value="{{account.ban_name}}: {{account.ban_number}}">
-                                    {% endfor %}
+                                        {% for account in ban_accounts %}
+                                        <option value="{{account.ban_name}}: {{account.ban_number}}">
+                                        {% endfor %}
                                     </datalist>
                                 </div>
                                 <div>
