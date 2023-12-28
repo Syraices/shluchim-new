@@ -1,8 +1,11 @@
+import smtplib
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+from emails.models import EmailRecords
 from .forms import SubscriptionForm, SubscriptionAddForm
 from accounts.forms import CustomUserForm
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
@@ -11,6 +14,7 @@ from plans.models import Plan, BanAccount
 from accounts.models import CustomUser
 from cart.models import Cart
 from .models import Subscription
+from django.core.mail import send_mail
 
 
 def create_subscription(request, plan_id):
@@ -112,13 +116,34 @@ def add_plan(request):
 def delete_plan(request, sub_id):
     print(request.method)
     if request.method == 'POST':
-        sub = Subscription.objects.get(id=sub_id)
-        print(sub.is_cancelled)
-        sub.is_cancelled = True
-        sub.is_active = False
-        sub.save()
-        print(sub.is_cancelled)
-        return redirect('admin_user_page', user_id=sub.user_id.id)
+        if request.user.is_superuser:
+            sub = Subscription.objects.get(id=sub_id)
+            print(sub.is_cancelled)
+            sub.is_cancelled = True
+            sub.is_active = False
+            sub.save()
+            print(sub.is_cancelled)
+            return redirect('admin_user_page', user_id=sub.user_id.id)
+        else:
+            subject = 'Cancellation Request'
+            message = f'{request.user.ship_fname} {request.user.ship_lname} has requested a cancellation'
+            print(request.user.email)
+            try:
+                sent_email = send_mail(
+                    subject,
+                    message,
+                    'rdevcotest@gmail.com',
+                    ['bigmouth28@gmail.com'],
+                    fail_silently=True
+                )
+                email_record = EmailRecords(user_id=request.user, subject=subject, content=message)
+                email_record.save()
+                print(email_record)
+                print("send email to admin")
+            except smtplib.SMTPException as e:
+                print('exception')
+                print(e)
+            return render(request, 'subscriptions/delete_success.html')
     else:
         return render(request, 'subscriptions/delete_plan.html', {'sub_id': sub_id})
 

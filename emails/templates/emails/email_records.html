@@ -1,0 +1,25 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+
+<div>
+  {% for email in email_list %}
+    <div class="card shadow mb-2">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-4">
+          <strong>Subject:</strong> {{email.subject}}
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <strong>Sent at:</strong> {{email.created_at}}
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        {{email.content}}
+      </div>
+    </div>
+  {% endfor %}
+</div>

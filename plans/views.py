@@ -1,14 +1,18 @@
+import os
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from .models import Plan
 from accounts.models import CustomUser
+import os
 
 
 def index(request):
+    print(os.environ.get('NAME'))
     plans = Plan.objects.all()
-    print(plans)
+    # print(plans)
     plan_list = {'plans': plans}
     response_data = render_to_string("plans/plans.html", plan_list, request=request)
     return HttpResponse(response_data)

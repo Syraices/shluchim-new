@@ -6,11 +6,12 @@ from .forms import CustomUserChangeForm
 from allauth.account.decorators import verified_email_required
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
-
+from emails.models import EmailRecords
 from .models import CustomUser
 from plans.models import Plan
 from .forms import CustomUserPlanChange
 from subscriptions.models import Subscription
+from emails.forms import SingleEmailForm
 from billing.models import Billing
 
 
@@ -19,8 +20,13 @@ from billing.models import Billing
 @login_required
 # @verified_email_required
 def user_page(request, user_id=None):
-    if user_id and request.user.is_superuser:
-        user = CustomUser.objects.get(id=user_id)
+    email_form = SingleEmailForm()
+    if user_id:
+
+        if request.user.is_superuser:
+            user = CustomUser.objects.get(id=user_id)
+        else:
+            return HttpResponse("Nice try. You don't belong here!!", status=400)
     else:
         user = request.user
 
@@ -32,7 +38,9 @@ def user_page(request, user_id=None):
         subscription = []
         pass
 
-    user_details = {'user': user, 'subs': subscription, 'superuser': request.user.is_superuser, }
+    email_list = EmailRecords.objects.filter(user_id=user.id)
+
+    user_details = {'user': user, 'subs': subscription, 'superuser': request.user.is_superuser,'email_form': email_form, 'email_list': email_list}
 
     return render(request, 'accounts/user_page.html', user_details)
 

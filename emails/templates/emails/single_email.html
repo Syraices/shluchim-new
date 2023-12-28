@@ -1,0 +1,11 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+<div>
+  <form action="{% url 'send_email' email_id=user.id %}" method="post">
+      {% csrf_token %}
+      {{ email_form.as_p }}
+      <button type="submit" class="btn btn-primary">Send Email</button>
+  </form>
+</div>

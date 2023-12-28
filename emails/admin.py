@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Email
+from .models import Email, EmailRecords
 from .forms import EmailForm
 
 
@@ -11,5 +11,10 @@ class EmailAdmin(admin.ModelAdmin):
 
     form = EmailForm
 
-
 admin.site.register(Email, EmailAdmin)
+
+
+class EmailRecordsAdmin(admin.ModelAdmin):
+    model = EmailRecords
+
+admin.site.register(EmailRecords, EmailRecordsAdmin)

@@ -6,22 +6,29 @@
 {% endblock %}
 {% block content %}
 <ul>
-    {% for plan in plans %}
     <div>
+        <div class="row mx-5">
+    {% for plan in plans %}
+            <div class="col-md-3 m-5">
         <div class="card" style="color: {{plan.color}}" >
             <div class="card-body">
-                <h5 class="card-title">{{plan.name}}</h5>
+                <h5 class="card-title text-center">{{plan.name}}</h5>
+                <div class="card-text text-center">
                 <h6>{{plan.provider}}</h6>
                 <p>{{plan.price}}</p>
                 <p>{{plan.slug}}</p>
+                <p>{{plan.description}}</p>
                 <div>
                     <a href="{% if id %}/my-account/change_profile{% else %}/subscribe{%endif%}/{{ plan.id }}" class="btn btn-primary" >
                       {% if id %}Add/Change Plan{% else %}Get Started {% endif %}
                     </a>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
     {% endfor %}
+        </div>
     </div>
 </ul>
 

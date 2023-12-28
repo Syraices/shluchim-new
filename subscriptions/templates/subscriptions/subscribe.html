@@ -5,15 +5,28 @@
 
 
 {% block content %}
-<div class="col-md-6">
-<form method="post">
-    {% csrf_token %}
-    <h1>Your Plan: {{ plan.provider }} - {{plan.name}}</h1>
-    {{ form_user|crispy }}
-    {{ form_sub|crispy}}
-    <button class="btn btn-success" type="submit">Subscribe</button>
-</form>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card-body mb-5">
+            <div class="card shadow">
+                <div class="card-title mx-auto ">
+                    <h1>Your Plan: {{ plan.provider }} - {{plan.name}}</h1>
+                </div>
+                <div class="card-text mx-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form_user|crispy }}
+                        {{ form_sub|crispy}}
+                        <button class="btn btn-success mb-3" type="submit">Subscribe</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
+
 
 
 {% endblock content %}

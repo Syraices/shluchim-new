@@ -24,19 +24,19 @@
 
 <body >
 <div class="container-fluid vh-100">
-    {% if user.is_superuser %}
+    {% if request.user.is_superuser %}
 
         <div class="d-flex flex-row flex-grow-1">
         <!-- Sidebar -->
 
-        <div class="col-md-2 p-3 bg-light d-flex flex-column vh-100" >
+
+        <div class="col-md-2 p-3 bg-light d-flex flex-column vh-100">
             <a href="/" class="d-flex align-items-center mb-2  text-dark text-decoration-none">
-          <img src="{% static 'images/Sassist-Logo.png' %}" />
-        </a>
-            <h3>Sidebar</h3>
+              <img src="{% static 'images/Sassist-Logo.png' %}" />
+            </a>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
+                    <a class="nav-link active" href="{% url 'actions_queue' %}">Action-Queue</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
@@ -46,30 +46,37 @@
                 </li>
             </ul>
         </div>
-{% endif %}
 
-<div class="d-flex flex-column w-100" style="100%">
-  <header class="p-3 mb-3 border-bottom">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    {% endif %}
+          <div class="{% if user.is_superuser %} col-md-10 {% endif %}">
 
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
-          <li><a href="{% url 'about' %}" class="nav-link px-2 link-dark">About</a></li>
-        </ul>
-
-        <div class="dropdown text-end">
-          {% if user.is_authenticated %}
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            {{ user.email }}
-          </a>
-          <ul class="dropdown-menu text-small">
+        <div class="d-flex flex-column w-100" style="100%">
+          <header class="p-3 mb-3 border-bottom">
+            <div class="row">
+              <div class="d-flex flex-wrap col-md-2">
+                {% if not request.user.is_superuser %}
+                <a href="/" class="d-flex mb-2  text-dark text-decoration-none">
+                    <img src="{% static 'images/Sassist-Logo.png' %}" />
+                </a>
+                {% endif %}
+            </div>
+            <div class="col-md-8 justify-content-center">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                  <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
+                  <li><a href="{% url 'about' %}" class="nav-link px-2 link-dark">About</a></li>
+                </ul>
+            </div>
+            <div class="dropdown col-md-2">
+              {% if user.is_authenticated %}
+              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                {{ request.user.email }}
+              </a>
+                <ul class="dropdown-menu text-small">
 <!--            <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Change password</a></li>-->
 <!--            <li>-->
 <!--              <hr class="dropdown-divider">-->
-            </li>
+<!--                </li>-->
             <hr class="dropdown-divider">
             <li>
               <a class="dropdown-item" href="{% url 'user_page' %}">My Account</a>
@@ -84,18 +91,16 @@
           {% endif %}
         </div>
       </div>
+      </header>
     </div>
-  </header>
-
-      <div class="{% if user.is_superuser %} col-md-10 {% endif %} w-100 d-flex flex-column">
+            <div class="w-100 d-flex flex-column">
         {% block content %}
         <p>Default content...</p>
         {% endblock content %}
-      </div>
+            </div>
     </div>
-        </div>
 </div>
-
+</div>
 
    <!-- Modal -->
 

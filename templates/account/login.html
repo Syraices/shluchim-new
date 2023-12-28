@@ -4,17 +4,28 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-<div class="col-md-6">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card shadow col-md-8">
+      <div class="card-body">
+        <div class="card-title">
+          <h2>Log in</h2>
+        </div>
+        <div class="card-text">
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary m-2" type="submit">Log in</button>
+            <a class="btn shadow" href="{% url 'home' %}">Signup</a>
+          </form>
+          <a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+        </div>
 
-<h2>Log in</h2>
+      </div>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button class="btn btn-success" type="submit">Log in</button>
-  <a class="btn" href="{% url 'home' %}">Signup</a>
-</form>
-<a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+    </div>
+
+  </div>
 </div>
 
 {% endblock content %}
