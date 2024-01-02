@@ -17,6 +17,7 @@
           <div class="card-body">
             <h5 class="card-title">{{user.ship_fname}} {{user.ship_lname}}</h5>
             <p>Email: {{user.email}}</p>
+            <a href="{% url 'change_profile' %}">Edit Profile</a>
           </div>
         </div>
       </div>
@@ -99,7 +100,18 @@
               <td> {{sub.plan_id.price}} </td>
               <td> {{sub.plan_id.provider}} </td>
               <td> {{sub.esim_number}} </td>
-              <td><a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal" aria-controls="modal" >Cancel Plan</a></td>
+              <td>
+                <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal">Cancel Plan</li>
+                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal">Request Data Pass</li>
+                            <li><a class="dropdown-item" href="#">Close</a></li>
+                        </ul>
+                    </div>
+              </td>
             </tr>
           {% endif %}
 <!--            Cancellation Modal-->
@@ -116,6 +128,27 @@
                       <p>Are you sure you want to cancel your plan?</p>
                       <div class="modal-footer">
                         <button class="btn btn-danger" type="submit">Cancel your plan</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--            data pass modal-->
+            <div class="modal fade" id="passModal" tabindex="-1" aria-labelledby="passModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Cancel Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" >
+                    <form action="{% url 'data_pass' %}" method="post">
+                      {% csrf_token %}
+                      <p>Are you sure you want this option?</p>
+                      <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Request data pass</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                       </div>
                     </form>

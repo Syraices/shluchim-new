@@ -12,16 +12,9 @@ from accounts.models import CustomUser
 
 # Create your views here.
 def send_email(request, email_id):
-    # email = Email.objects.get(id=email_id)
-    # users = CustomUser.objects.all()
     user_email = CustomUser.objects.get(id=email_id)
 
-    # print(id)
-    # if request.method == "GET":
-    #     # details = {'users': users, 'email': email, 'id': email_id}
-    #     return render(request, 'emails/send_email.html')
     if request.method == 'POST':
-        # print(id)
         form = SingleEmailForm(request.POST)
 
         if form.is_valid():
@@ -29,9 +22,6 @@ def send_email(request, email_id):
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
 
-        # selected_option = request.POST['user_email']
-        # user = CustomUser.objects.get(email=selected_option)
-        # email_content = email.email_content.replace("[fname]", user.ship_name)
             try:
                 email_sent = send_mail(
                     subject,

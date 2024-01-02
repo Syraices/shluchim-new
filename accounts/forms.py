@@ -18,9 +18,17 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password')
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = (
+            'ship_address',
+            'ship_city',
+            'ship_state',
+            'ship_zip',
+        )
 
 
 class CustomUserForm(UserCreationForm):

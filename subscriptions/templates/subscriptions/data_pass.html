@@ -1,0 +1,7 @@
+<div style="width:200px, height:200px">
+    <form action="{% url 'data_pass' %}" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want this option?</p>
+        <button class="btn btn-warning" type="submit">Request</button>
+    </form>
+</div>

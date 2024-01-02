@@ -2,7 +2,6 @@ from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from billing.models import Billing
 from .models import Cart
 from subscriptions.models import Subscription
 import os

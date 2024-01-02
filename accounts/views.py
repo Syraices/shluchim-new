@@ -48,11 +48,11 @@ def user_page(request, user_id=None):
 def change_profile(request):
     user = request.user
     if request.method == 'POST':
-        form = CustomUserPlanChange(request.POST)
+        form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             return redirect('user_page')
     else:
-        form = CustomUserPlanChange()
+        form = CustomUserChangeForm()
     # print(request)
     return render(request, 'accounts/change_profile.html', {'form': form})

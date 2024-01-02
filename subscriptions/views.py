@@ -181,4 +181,31 @@ def deactivate_plan(request, sub_id):
         sub.save()
         return redirect("actions_queue")
 
+def data_pass(request):
+    if request.user:
+        if request.method == 'POST':
+            if not request.user.is_superuser:
+                subject = 'Data Pass Request'
+                message = f'{request.user.ship_fname} {request.user.ship_lname} has requested a Data Pass'
+                print(request.user.email)
+                try:
+                    sent_email = send_mail(
+                        subject,
+                        message,
+                        'postmaster@sandbox91eceadb73c947ffa8255d53dea82964.mailgun.org',
+                        ['rdevcotest@gmail.com'],
+                        fail_silently=True
+                    )
+                    email_record = EmailRecords(user_id=request.user, subject=subject, content=message)
+                    email_record.save()
+                    print(email_record)
+                    print("send email to admin")
+                    print(sent_email)
+                except smtplib.SMTPException as e:
+                    print('exception')
+                    print(e)
+                return redirect('user_page')
+            else:
+                return render("data_pass")
+
 
