@@ -7,7 +7,7 @@ from .forms import EmailForm
 # Register your models here.
 class EmailAdmin(admin.ModelAdmin):
     model = Email
-    fields = ['name', 'subject_line', 'email_content']
+    fields = ['name', 'subject_line', 'email_content', 'canned', 'auto_emails']
 
     form = EmailForm
 

@@ -1,0 +1,8 @@
+{% load crispy_forms_tags %}
+<div>
+  <form action="{% url 'send_email' email_id=user_id.id %}" method="post">
+    {% csrf_token %}
+    {{email_form|crispy}}
+    <button class="btn btn-primary m-2" type="submit">Send Email</button>
+  </form>
+</div>

@@ -14,7 +14,9 @@ urlpatterns = [
     path("subscribe/", include("subscriptions.urls")),
     path("pages/", include("pages.urls")),
     path('cart/', include("cart.urls")),
-    path('action-queue/', include("actionables.urls"))
+    path('action-queue/', include("actionables.urls")),
+    path('coupons/', include("coupon.urls")),
+    path('crons/', include("cron_job.urls"))
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,16 @@
+{% extends 'stylers/modal.html' %}
+{% load crispy_forms_tags %}
+
+{% block modal-title %}Port Number{% endblock %}
+
+{% block modal-body %}
+
+{% if sub.id %}
+  <form action="{% url 'porting' sub_id=sub.id %}" method="post">
+    {% csrf_token %}
+    {{ port_form|crispy }}
+    <button class="btn btn-success" type="submit">Request Port</button>
+  </form>
+{% endif %}
+{% endblock %}
+

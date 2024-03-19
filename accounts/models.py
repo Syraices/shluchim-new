@@ -18,6 +18,7 @@ class CustomUser(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     latest_payment = models.DateTimeField(default=None, null=True)
+    authnet_id = models.CharField(max_length=25, null=True)
 
     REQUIRED_FIELDS = ["phone_number", "four_pin", "ship_fname", "ship_lname", "ship_address", "ship_city", "ship_state", "ship_zip"]
 

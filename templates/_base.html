@@ -6,15 +6,17 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <title>{% block title %}DjangoX{% endblock title %}</title>
+  <title>{% block title %}Shluchim Assist{% endblock title %}</title>
   <meta name="description" content="A framework for launching new Django projects quickly.">
   <meta name="author" content="">
-  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
 
   {% block css %}
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
@@ -36,7 +38,7 @@
           <a class="nav-link active" href="{% url 'actions_queue' %}">Action-Queue</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="{% url 'coupons' %}">Coupons</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Another Link</a>
@@ -47,19 +49,14 @@
     <div class="{% if user.is_superuser %} col-md-10 {% endif %}">
       {% if not request.user.is_superuser %}
       <div class="d-flex flex-column w-100">
-        <header class="p-3 mb-3 border-bottom bg-image shadow">
-          <div class="row">
+        <header class="p-3 border-bottom bg-white shadow">
+          <div class="row justify-content-between">
             <div class="d-flex flex-wrap col-md-2">
               <a href="/" class="d-flex mb-2  text-dark text-decoration-none">
                 <img src="{% static 'images/Sassist-Logo.png' %}" />
               </a>
             </div>
-            <div class="col-md-8 justify-content-center">
-              <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="{% url 'about' %}" class="nav-link px-2 link-dark">About</a></li>
-              </ul>
-            </div>
+
             <div class="dropdown col-md-2">
               {% if user.is_authenticated %}
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
@@ -67,13 +64,11 @@
                 {{ request.user.email }}
               </a>
               <ul class="dropdown-menu text-small">
-<!--                <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Change password</a></li>-->
-<!--                <li>-->
-<!--                <hr class="dropdown-divider">-->
-<!--                </li>-->
-                <hr class="dropdown-divider">
                 <li>
-                  <a class="dropdown-item" href="{% url 'user_page' %}">My Account</a>
+                  <a class="dropdown-item" href="{% url 'user_page' %}"><span class="bi bi-person-circle"></span> My Account</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'cart' %}"><span class="bi bi-cart-fill"></span> My Cart</a>
                 </li>
                 <hr class="dropdown-divider">
                 <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a></li>

@@ -1,0 +1,15 @@
+{% extends 'stylers/modal.html' %}
+
+{% block modal-title %}Port Number{% endblock %}
+
+{% block modal-body %}
+
+{% if port.id %}
+
+<form action="{% url 'admin_port' port_id=port.id %}" method="post" >
+  {% csrf_token %}
+  Are you sure you want Port this number?
+  <button class="btn btn-primary" type="submit">Port Number</button>
+</form>
+{% endif %}
+{% endblock %}

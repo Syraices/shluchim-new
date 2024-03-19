@@ -2,6 +2,9 @@ from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
+from coupon.models import Coupon
+from .forms import CartCouponForm
 from .models import Cart
 from subscriptions.models import Subscription
 import os
@@ -9,11 +12,13 @@ from billing.models import Billing
 from accounts.models import CustomUser
 import json
 import urllib.parse
+from utils import charge_cc, create_customer_profile, charge_existing_customer, get_payment_profiles
 
 
 # Create your views here.
 
 def cart(request):
+    form = CartCouponForm()
     current_date = datetime.now(timezone.utc)
     one_month_ago = current_date - relativedelta(months=1)
     # if hasattr(request.user, 'latest_payment') and request.user.latest_payment and request.user.latest_payment >= one_month_ago:
@@ -38,7 +43,7 @@ def cart(request):
 
         form_link = os.getenv('PAY_FORM_LINK')
 
-        data = {'cart': cart, 'plans': plan_list, 'form_link': form_link, 'total': total, 'cart_info': {"user": cart.user_id.id, "plans": plan_id_list}}
+        data = {'cart': cart, 'plans': plan_list, 'form_link': form_link, 'total': total, 'cart_info': {"user": cart.user_id.id, "plans": plan_id_list},'form': form}
     else:
         data = {'message': "Nothing in your cart"}
 
@@ -46,6 +51,17 @@ def cart(request):
     # else:
     #
     #     return render(request, 'cart/cart.html', {'message': "Please bring your payments up to date to add a new plan"})
+
+def add_coupon_code(request, cart_id):
+    if request.method == 'POST':
+        cart = Cart.objects.get(id=cart_id)
+        form = CartCouponForm(request.POST)
+        if form.is_valid():
+            coupon = Coupon.objects.filter(code=form.cleaned_data('coupon_code'))
+            if len(coupon) > 0:
+                cart.price -= coupon.discount
+                cart.save()
+                form.save()
 
 
 def webhook_success(request):
@@ -93,3 +109,11 @@ def webhook_fail(request):
 def webhook_response(request):
     print(request)
     return HttpResponse('valid', status=200)
+
+
+def checkout(request, payment_profile):
+    amount = 10
+    # charge_cc()
+    # get_payment_profiles(request.user.authnet_id, payment_profile)
+    return redirect('user_page')
+

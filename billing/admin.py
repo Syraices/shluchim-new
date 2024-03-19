@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib import admin
 
-from .models import Billing
+from .models import Billing, paymentProfile
 from subscriptions.models import Subscription
 
 # Register your models here.
@@ -20,3 +20,11 @@ class BillingAdmin(admin.ModelAdmin):
         return obj.subscription.id if obj.subscription else None
 
 admin.site.register(Billing, BillingAdmin)
+
+
+class paymentProfileAdmin(admin.ModelAdmin):
+    model = paymentProfile
+    fields = ["user_id", "profile_number"]
+    list_display = ['user_id', 'profile_number']
+
+admin.site.register(paymentProfile, paymentProfileAdmin)

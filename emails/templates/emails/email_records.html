@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="card-body">
-        {{email.content}}
+        {{email.content | safe}}
       </div>
     </div>
   {% endfor %}

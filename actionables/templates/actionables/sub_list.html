@@ -1,42 +1,96 @@
-
-{% block content %}
-<table class="table table-bordered-horizontal table-hover">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Sim Number</th>
-            <th>Plan</th>
-            <th>BAN</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-{% for sub in sub_list %}
-        <tr>
-                <td><a href="{% url 'admin_user_page' user_id=sub.user_id.id %}">{{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}</a></td>
-                <td>{{sub.phone_number}}</td>
-                <td>{{sub.esim}}</td>
-                <td>{{sub.plan_id.name}}</td>
-                <td>{{sub.ban_account}}</td>
-                <td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                Actions
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Something to do</li>
-                                <li><a class="dropdown-item" href="#">Close</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </td>
-        </tr>
-
-
-{% endfor %}
-    </tbody>
+<table class="table table-borderless table-hover">
+  <thead>
+  <tr>
+    <th>Order Number</th>
+    <th>Active Number</th>
+    {% if request.user.is_superuser %}<th>BAN</th> {% endif %}
+    <th>Plan</th>
+    <th>Price</th>
+    <th>Provider</th>
+    <th>SIM</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for sub in sub_list %}
+  {% if not sub.is_cancelled and sub.is_active %}
+  <tr>
+    <td onclick="{% if request.user.is_superuser %}window.location.href='{% url 'admin_user_page' user_id=sub.user_id.id %}'{% endif %}">{{sub.id}}</td>
+    <td onclick="{% if request.user.is_superuser %}window.location.href='{% url 'admin_user_page' user_id=sub.user_id.id %}'{% endif %}">{{sub.phone_number}}</td>
+    {% if request.user.is_superuser %}<td>{{sub.ban_account.ban_number}}</td>{% endif %}
+    <td> {{sub.plan_id.name}} </td>
+    <td> {{sub.plan_id.price}} </td>
+    <td> {{sub.plan_id.provider}} </td>
+    <td> {{sub.esim_number}} </td>
+    <td>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Actions
+        </button>
+        {% if not request.user.is_superuser %}
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal{{sub.id}}">Cancel Plan</li>
+          <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal">Request Data Pass</li>
+          <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#portModal">Port Your Number</li>
+          <li><a class="dropdown-item" href="#">Close</a></li>
+        </ul>
+        {% else %}
+         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal{{sub.id}}">Cancel {{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}'s Plan</li>
+          <li><a class="dropdown-item" href="#">Close</a></li>
+        </ul>
+        {% endif %}
+      </div>
+    </td>
+  </tr>
+<!--Port Modal-->
+  {% with modal_name="portModal" %}
+    {% include 'actionables/port.html' %}
+  {% endwith %}
+  {% endif %}
+<!--Cancellation Modal-->
+  <div class="modal fade" id="modal{{sub.id}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancel Plan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" >
+          <form action="{% url 'del_plan' sub_id=sub.id %}" method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to cancel {% if request.user.is_superuser %}{{sub.user_id.ship_fname}} {{sub.user_id.ship_lname}}'s{% else %}your{% endif %} plan?</p>
+            <div class="modal-footer">
+              <button class="btn btn-danger" type="submit">Cancel your plan</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--            data pass modal-->
+  <div class="modal fade" id="passModal" tabindex="-1" aria-labelledby="passModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Request Data Pass</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" >
+          <form action="{% url 'data_pass' %}" method="post">
+            {% csrf_token %}
+            <p>Are you sure you want this option?</p>
+            <div class="modal-footer">
+              <button class="btn btn-danger" type="submit">Request data pass</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </tbody>
 </table>
-{% endblock %}
-
+<a class="btn btn-primary" href="{% url 'add_plan' %}">Add Plan</a>

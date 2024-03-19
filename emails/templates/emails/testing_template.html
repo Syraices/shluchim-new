@@ -1,0 +1,6 @@
+<div>
+  <form action="{%url 'send_test' user_id=211 %}" method="post">
+    {% csrf_token %}
+    <button type="submit">send email</button>
+  </form>
+</div>

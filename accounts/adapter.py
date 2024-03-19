@@ -2,10 +2,10 @@ from django.conf import settings
 from allauth.account.adapter import DefaultAccountAdapter
 
 class MyAccountAdapter(DefaultAccountAdapter):
-
-    def get_login_redirect_url(self, request):
-        path = "/my-account/{id}"
-        return path.format(id=request.user.id)
+    #
+    # def get_login_redirect_url(self, request):
+    #     path = "/my-account/"
+    #     return path
 
     def get_signup_redirect_url(self, request):
         path = ""

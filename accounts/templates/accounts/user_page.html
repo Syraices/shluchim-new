@@ -15,12 +15,15 @@
       <div class="col-md-4 mr-1">
         <div class="card h-100 row mr-1">
           <div class="card-body">
-            <h5 class="card-title">{{user.ship_fname}} {{user.ship_lname}}</h5>
-            <p>Email: {{user.email}}</p>
-            <a href="{% url 'change_profile' %}">Edit Profile</a>
+            <h5 class="card-title">{{user_id.ship_fname}} {{user_id.ship_lname}}</h5>
+            <p>Email: {{user_id.email}}</p>
+            <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#profileModal">Edit Profile</a>
           </div>
         </div>
       </div>
+      {% with modal_name='profileModal' %}
+        {% include 'accounts/change_profile.html' %}
+      {% endwith %}
 <!--      Second Box-->
       <div class="col-md-4 mr-1">
         <div class="card h-100 row no-gutters">
@@ -57,9 +60,6 @@
         <a class="nav-link active" id="activation-tab" data-bs-toggle="tab" href="#activation" role="tab">Active Subscriptions</a>
       </li>
       <li class="nav-item flex-grow-1" role="presentation">
-        <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active" role="tab">Active Accounts</a>
-      </li>
-      <li class="nav-item flex-grow-1" role="presentation">
         <a class="nav-link" id="overdue-tab" data-bs-toggle="tab" href="#overdue" role="tab">Overdue Accounts</a>
       {% if request.user.is_superuser %}
       </li>
@@ -67,103 +67,16 @@
         <a class="nav-link" id="email-tab" data-bs-toggle="tab" href="#email" role="tab">Send Email</a>
       </li>
       {% endif %}
-      <li>
+      <li class="nav-item flex-grow-1" role="presentation">
         <a class="nav-link" id="email-records-tab" data-bs-toggle="tab" href="#emailRecords" role="tab">Email Records</a>
+      </li>
+      <li class="nav-item flex-grow-1" role="presentation">
+        <a class="nav-link" id="payment-profiles-tab" data-bs-toggle="tab" href="#paymentProfiles" role="tab">Payment Options</a>
       </li>
     </ul>
 <!--Active Subscriptions Tab Content-->
     <div class="tab-content mt-5" id="accountTabContent">
       <div class="table-responsive tab-pane fade show active" id="activation" role="tabpanel" aria-labelledby="activation-tab">
-<!--       Subscription table-->
-        <table class="table table-borderless table-hover">
-          <thead>
-          <tr>
-            <th>Order Number</th>
-            <th>Active Number</th>
-            <th>BAN</th>
-            <th>Plan</th>
-            <th>Price</th>
-            <th>Provider</th>
-            <th>SIM</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody>
-            {% for sub in subs %}
-            {% if not sub.is_cancelled and sub.is_active %}
-            <tr>
-              <td>{{sub.id}}</td>
-              <td>{{sub.phone_number}}</td>
-              <td>{{sub.ban_account.ban_number}}</td>
-              <td> {{sub.plan_id.name}} </td>
-              <td> {{sub.plan_id.price}} </td>
-              <td> {{sub.plan_id.provider}} </td>
-              <td> {{sub.esim_number}} </td>
-              <td>
-                <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal">Cancel Plan</li>
-                            <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal">Request Data Pass</li>
-                            <li><a class="dropdown-item" href="#">Close</a></li>
-                        </ul>
-                    </div>
-              </td>
-            </tr>
-          {% endif %}
-<!--            Cancellation Modal-->
-            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Cancel Plan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body" >
-                    <form action="{% url 'del_plan' sub_id=sub.id %}" method="post">
-                      {% csrf_token %}
-                      <p>Are you sure you want to cancel your plan?</p>
-                      <div class="modal-footer">
-                        <button class="btn btn-danger" type="submit">Cancel your plan</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-<!--            data pass modal-->
-            <div class="modal fade" id="passModal" tabindex="-1" aria-labelledby="passModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Cancel Plan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body" >
-                    <form action="{% url 'data_pass' %}" method="post">
-                      {% csrf_token %}
-                      <p>Are you sure you want this option?</p>
-                      <div class="modal-footer">
-                        <button class="btn btn-danger" type="submit">Request data pass</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-      {% endfor %}
-
-      </tbody>
-      </table>
-        <a href="{% url 'add_plan' %}">Add Plan</a>
-      </div>
-<!--    sub-list-->
-      <div class="tab-pane fade" id="active" role="tabpanel" aria-labelledby="active-tab">
         {% include 'actionables/sub_list.html' %}
       </div>
 <!--    past dues-->
@@ -173,12 +86,16 @@
 <!--    admin email send-->
     {% if request.user.is_superuser %}
       <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
-        {% include 'emails/single_email.html' %}
+        {% include 'emails/user_email.html' %}
       </div>
     {% endif %}
       <div class="tab-pane fade" id="emailRecords" role="tabpanel" aria-labelledby="email-records-tab">
         {% include 'emails/email_records.html' %}
       </div>
+      <div class="tab-pane fade" id="paymentProfiles" role="tabpanel" aria-labelledby="payment-profiles-tab">
+        {% include 'actionables/pay_option.html' %}
+      </div>
+
 
       <!-- ... Add more tab content as necessary -->
     </div>

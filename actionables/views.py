@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from billing.models import Billing
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
@@ -6,10 +6,14 @@ from accounts.models import CustomUser
 from subscriptions.models import Subscription
 from django.db.models import Q
 from subscriptions.forms import SubscriptionActivateForm
+from .forms import CreatePortForm
 from plans.models import BanAccount
 from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
 import pytz
+
+from .models import Port
+
 
 # Create your views here.
 
@@ -63,6 +67,7 @@ def main_actions(request):
 
     overdue_subs = Subscription.objects.prefetch_related('billing_set').filter(is_active=True)
     od_subs_arr = []
+    port_list = Port.objects.all()
     # print(overdue_subs)
 
     for sub in overdue_subs:
@@ -84,9 +89,43 @@ def main_actions(request):
             print(last_due_date)
 
     activate_form = SubscriptionActivateForm()
-
+    port_form = CreatePortForm()
+    for port in port_list:
+        print(port.sub_id)
     data = {"activate": subs_for_activation, "sub_list": active_subs, "past_due": od_subs_arr,
             "ban_accounts": ban_accounts, "activate_form": activate_form, "suspended_accounts": suspended_accounts,
-            "cancelled_accounts": cancelled_accounts}
+            "cancelled_accounts": cancelled_accounts, "port_form": port_form, "port_list": port_list}
 
     return render(request, "actionables/actions_main.html", data)
+
+def create_port(request, sub_id):
+    print(request.method)
+    if request.method == 'POST':
+        form = CreatePortForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            port = form.save()
+            sub = Subscription.objects.get(id=sub_id)
+            print('porting')
+            print(port)
+            port.sub_id = sub
+            port.save()
+        return redirect('user_page')
+    else:
+        form = CreatePortForm()
+
+        return render(request, 'actionables/port.html', {'form': form, 'sub_id': sub_id})
+
+@user_passes_test(superuser_check)
+def port_number(request, port_id):
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            print(port_id)
+            port = Port.objects.get(id=port_id)
+            sub = Subscription.objects.get(id=port.sub_id.id)
+            sub.phone_number = port.port_number
+            new_sub_num = sub.save()
+            print(new_sub_num)
+            port.delete()
+
+    return redirect('actions_queue')

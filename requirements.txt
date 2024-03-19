@@ -29,3 +29,5 @@ authorizenet
 django-cors-headers
 python-dateutil
 pytz
+django-cryptography
+authorizenet

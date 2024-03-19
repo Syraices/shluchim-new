@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['ship_fname', 'ship_lname', 'id', 'email', 'link_to_change_form', 'phone_number']
+    list_display = ['ship_fname', 'ship_lname', 'id', 'email', 'link_to_change_form', 'phone_number', 'authnet_id']
     fieldsets = (
         (None, {'fields': ('username', 'latest_payment', 'is_staff')}),
         ('Personal Info', {'fields': ('email', 'ship_fname', 'ship_address', 'phone_number')}),

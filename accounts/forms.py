@@ -29,6 +29,25 @@ class CustomUserChangeForm(UserChangeForm):
             'ship_state',
             'ship_zip',
         )
+        
+class CustomUserChangeAdminForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = (
+            'username',
+            'ship_fname',
+            'ship_lname',
+            'email',
+            'is_active',
+            'phone_number',
+            'four_pin',
+            'ship_address',
+            'ship_city',
+            'ship_state',
+            'ship_zip',
+            'is_billing',
+
+        )
 
 
 class CustomUserForm(UserCreationForm):

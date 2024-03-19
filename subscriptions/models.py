@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator
 from django.db import models
+from django_cryptography.fields import encrypt
 
 from plans.models import Plan, BanAccount
 from accounts.models import CustomUser
@@ -20,7 +22,7 @@ class Subscription(models.Model):
     imei = models.CharField(max_length=16, validators=[specific_length_validator(16)], default=None, null=True, unique=True)
     esim_number = models.CharField(max_length=25, validators=[specific_length_validator(25)], default=None, unique=True)
     amount_owed = models.IntegerField(null=True)
-    phone_number = models.CharField(max_length=10, validators=[specific_length_validator(10)], default=None, null=True, unique=True, blank=True)
+    phone_number = models.CharField(max_length=10, validators=[specific_length_validator(10)], default=None, null=True, blank=True)
     is_cancelled = models.BooleanField(default=False)
     has_paid = models.BooleanField(default=False)
     is_suspended = models.BooleanField(default=False)
@@ -30,7 +32,6 @@ class Subscription(models.Model):
 
 
     def __str__(self) -> str:
-        return f"{self.user_id}: {self.plan_id} - {self.plan_id}"
-
+        return f"{self.id}({self.user_id}: {self.plan_id} - {self.plan_id})"
 
 

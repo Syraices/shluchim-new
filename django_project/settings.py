@@ -8,6 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
 SECRET_KEY = 'django-insecure-0peo@#x9jur3!h$ryje!$879xww8y1y66jx!%*#ymhg&jkozs2'
 
+ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY')
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#debu
 DEBUG = True
 
@@ -39,9 +41,11 @@ INSTALLED_APPS = [
     "emails",
     "subscriptions",
     "billing",
+    "coupon",
     "corsheaders",
     "actionables",
-    "pytz"
+    "pytz",
+    "authorizenet"
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -199,7 +203,7 @@ AUTHENTICATION_BACKENDS = (
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = (True)
 ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = (False)
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = ("email")
 ACCOUNT_EMAIL_REQUIRED = True
@@ -229,9 +233,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mailgun.org' # or your email provider's SMTP server
 EMAIL_PORT = 587 # or the port used by your email provider's SMTP server
 EMAIL_USE_TLS = True # use TLS encryption for the connection
-EMAIL_HOST_USER = 'postmaster@sandbox91eceadb73c947ffa8255d53dea82964.mailgun.org' # your email address
-EMAIL_HOST_PASSWORD = '95daed4620c584141a9fe1b2b0f6f719-1900dca6-5d03092a' # your email password or app password
-DEFAULT_FROM_EMAIL = 'postmaster@sandbox91eceadb73c947ffa8255d53dea82964.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sandboxce53f3c79e564f6e8936dc21f970ea79.mailgun.org' # your email address
+EMAIL_HOST_PASSWORD = 'af7635adfdb562377ad511d415fce1c6-78f6ccbe-87b43c62' # your email password or app password
+DEFAULT_FROM_EMAIL = 'postmaster@sandboxce53f3c79e564f6e8936dc21f970ea79.mailgun.org'
 
 USAEPAY_SOURCE_KEY = os.getenv('USAEPAY_SOURCE_KEY')
 USAEPAY_PIN = os.getenv('USAEPAY_PIN')
@@ -241,4 +245,6 @@ USE_X_FORWARDED_HOST = True
 
 
 CACHE_MIDDLEWARE_SECONDS = 0
+
+
 

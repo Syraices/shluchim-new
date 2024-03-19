@@ -1,0 +1,37 @@
+<table class="table table-borderless table-hover">
+  <thead>
+  <tr>
+    <th>Order Number</th>
+    <th>Name</th>
+    <th>Active Number</th>
+    <th>Number To Port</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for port in port_list %}
+  {% if not port.sub_id.is_cancelled and port.sub_id.is_active %}
+  <tr>
+    <td>{{port.sub_id.id}}</td>
+    <td>{{port.sub_id.user_id.ship_fname}} {{port.sub_id.user_id.ship_lname}}</td>
+    <td>{{port.sub_id.phone_number}}</td>
+    <td>{{port.port_number}}</td>
+    <td>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Actions
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li class="dropdown-item" data-bs-toggle="modal" data-bs-target="#adminPort{{port.id}}">Port Number</li>
+          <li><a class="dropdown-item" href="#">Close</a></li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+  {% with modal_name="adminPort" modal_ider=port.id%}
+    {% include 'actionables/admin_port.html' %}
+  {% endwith %}
+  {% endif %}
+  {% endfor %}
+  </tbody>
+</table>

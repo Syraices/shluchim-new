@@ -1,0 +1,60 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+
+<div>
+  {% for email in canned_emails %}
+  <div class="card shadow mb-2">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Subject:</strong> {{email.subject_line}}
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      {{email.email_content}}
+    </div>
+    <div class="card-footer">
+      <form action="{% url 'canned_emails' user_id=user_id.id email_id=email.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Send email</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+  <div>
+    <div class="row justify-content-between">
+      <a class="btn btn-secondary col-auto" data-bs-toggle="modal" data-bs-target="#modal1">Add Canned Email</a>
+      <a class="btn btn-primary col-auto" data-bs-toggle="modal" data-bs-target="#customModal">Custom Email</a>
+    </div>
+  </div>
+  <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Email</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" >
+           {% include 'emails/canned_email.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Custom Email</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" >
+           {% include 'emails/custom_email.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

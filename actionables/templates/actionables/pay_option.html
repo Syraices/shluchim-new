@@ -1,0 +1,20 @@
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
+{% endblock %}
+
+<div class="row">
+
+{% for pay in pay_list %}
+    <div class="card col-md-4 m-2 p-2 justify-content-center shadow">
+        <div>
+            <p><strong>Card ending with:</strong> {{pay.card_num}}</p>
+            <p><strong>Exp:</strong> {{pay.expiration}}</p>
+            <p><strong>Billing Name:</strong> {{pay.billing_lastName}}, {{pay.billing_firstName}}</p>
+            <p><strong>Billing Addres:</strong> {{pay.billing_address}}</p>
+            <p>{{pay.billing_city}}, {{pay.billing_state}} {{pay.billing_zip}}</p>
+        </div>
+    </div>
+
+{% endfor %}
+    </div>

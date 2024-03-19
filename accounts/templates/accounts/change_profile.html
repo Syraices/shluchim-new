@@ -1,25 +1,15 @@
-{% extends '_base.html' %}
+{% extends 'stylers/modal.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Change plan{% endblock %}
+{% block modal-title %}Change Profile{% endblock %}
 
-{% block content %}
-<div class="card shadow col-md-4 mx-auto">
-  <div class="card-body">
-    <div class="card-header">
-      <h5 class="card-title">
-        Change Profile
-      </h5>
-    </div>
-    <div class="p-4">
-      <form method="post">
+{% block modal-body %}
+
+      <form action="{% url 'change_profile' user_id=user_id.id %}" method="post">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ profile_form|crispy }}
         <button class="btn btn-success" type="submit">Submit</button>
       </form>
-    </div>
 
-  </div>
-</div>
 
-{% endblock content %}
+{% endblock %}
