@@ -25,6 +25,7 @@ class Subscription(models.Model):
     phone_number = models.CharField(max_length=10, validators=[specific_length_validator(10)], default=None, null=True, blank=True)
     is_cancelled = models.BooleanField(default=False)
     has_paid = models.BooleanField(default=False)
+    in_cart = models.BooleanField(default=True)
     is_suspended = models.BooleanField(default=False)
     activation_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

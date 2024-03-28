@@ -1,0 +1,14 @@
+{% extends 'stylers/modal.html' %}
+{% load crispy_forms_tags %}
+
+{% block modal-title %}Delete Payment Method{% endblock %}
+
+{% block modal-body %}
+
+{% if pay.payment_profile %}
+  <form action="{% url 'delete_pay' payment_profile=pay.payment_profile %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-success" type="submit">Delete Method</button>
+  </form>
+{% endif %}
+{% endblock %}

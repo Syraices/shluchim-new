@@ -56,16 +56,6 @@ def create_subscription(request, plan_id):
                 print('cart')
                 print(cart)
                 cart_id = cart.save()
-                subject = "Your new plan"
-                email_message = f"We've got your order and you're looking a whole lot more connected.Order {new_form_res.id} We wanted to let you know that we offer three convenient options to get started with our service: E-SIM Activation: Our plan can now be used with E-SIM if your phone is compatible. You can check if your phone is E-SIM compatible by going to settings > about > status > EID. If your phone has an EID, then it's E-SIM compatible. If you'd like us to move your line onto your E-SIM, simply send us your IMEI and EID. Pickup: We offer a pickup option in Crown Heights that is available 24/7. If this option is more convenient for you, please let us know, and we'll provide you with the pickup location. Shipping: Our estimated shipping time is 3-7 business days. If you prefer to have your order shipped to you, we'll send it out promptly. Please let us know which option you prefer, and we'll take care of the rest. Thanks again for choosing our services. If you have any questions, please don't hesitate to reach out to us.Thank you for choosing Shluchim Assist, have a great day!"
-
-                context = {
-                    "recipient_name": user_info.ship_fname,
-                    'email_message': email_message
-                }
-
-                print('67')
-                send_custom_email(user_info.email, subject, 'email_template.html', context, user_info)
 
                 return redirect('cart')
 

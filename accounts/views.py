@@ -15,6 +15,7 @@ from .forms import CustomUserPlanChange
 from subscriptions.models import Subscription
 from emails.forms import SingleEmailForm, EmailForm
 from billing.models import Billing, paymentProfile
+from billing.forms import PaymentProfileForm
 from utils import get_payment_profiles
 
 
@@ -69,6 +70,7 @@ def user_page(request, user_id=None):
         pay_ops_list.append(get_payment_profiles(user.authnet_id, profile.profile_number))
 
     print(pay_ops_list)
+    pay_profile_form = PaymentProfileForm()
 
     user_details = {
         'user_id': user,
@@ -80,7 +82,8 @@ def user_page(request, user_id=None):
         'canned_emails': canned_emails,
         'port_form': port_form,
         'profile_form': profile_form,
-        'pay_list': pay_ops_list
+        'pay_list': pay_ops_list,
+        'pay_profile_form': pay_profile_form
     }
 
     return render(request, 'accounts/user_page.html', user_details)

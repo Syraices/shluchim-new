@@ -9,6 +9,7 @@ from .models import Cart
 from subscriptions.models import Subscription
 import os
 from billing.models import Billing
+from billing.forms import PaymentProfileForm
 from accounts.models import CustomUser
 import json
 import urllib.parse
@@ -30,16 +31,15 @@ def cart(request):
         pass
     print(cart)
     if cart:
-        subs = Subscription.objects.filter(user_id=cart.user_id.id)
+        subs = Subscription.objects.filter(user_id=request.user.id, in_cart=True)
         plan_list = []
         plan_id_list = []
         total = 0
 
         for sub in subs:
-            if not sub.is_active:
-                plan_list += [sub.plan_id]
-                plan_id_list += [{"id": sub.id}]
-                total += sub.plan_id.price
+            plan_list += [sub.plan_id]
+            plan_id_list += [{"id": sub.id}]
+            total += sub.plan_id.price
 
         form_link = os.getenv('PAY_FORM_LINK')
 
@@ -111,9 +111,16 @@ def webhook_response(request):
     return HttpResponse('valid', status=200)
 
 
-def checkout(request, payment_profile):
-    amount = 10
-    # charge_cc()
-    # get_payment_profiles(request.user.authnet_id, payment_profile)
-    return redirect('user_page')
+# def checkout(request):
+#     if request.method == "POST":
+#         amount = 10
+#         form = PaymentProfileForm(request.POST)
+#         if form.is_valid():
+#             charge_cc(amount, form.cleaned_data)
+#             return redirect('user_page')
+#
+#     else:
+#         form = PaymentProfileForm()
+#         return render(request)
+
 

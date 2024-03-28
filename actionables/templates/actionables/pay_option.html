@@ -3,18 +3,43 @@
     <link rel="stylesheet" href="{% static 'actionables/past-due.css' %}">
 {% endblock %}
 
+<li class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addPay">+</li>
+
 <div class="row">
 
 {% for pay in pay_list %}
     <div class="card col-md-4 m-2 p-2 justify-content-center shadow">
-        <div>
-            <p><strong>Card ending with:</strong> {{pay.card_num}}</p>
-            <p><strong>Exp:</strong> {{pay.expiration}}</p>
-            <p><strong>Billing Name:</strong> {{pay.billing_lastName}}, {{pay.billing_firstName}}</p>
-            <p><strong>Billing Addres:</strong> {{pay.billing_address}}</p>
-            <p>{{pay.billing_city}}, {{pay.billing_state}} {{pay.billing_zip}}</p>
+        <div class="card-body">
+            <div>
+                <p><strong>Card ending with:</strong> {{pay.card_num}}</p>
+                <p><strong>Exp:</strong> {{pay.expiration}}</p>
+                <p><strong>Billing Name:</strong> {{pay.billing_lastName}}, {{pay.billing_firstName}}</p>
+                <p><strong>Billing Address:</strong> {{pay.billing_address}}</p>
+                <p>{{pay.billing_city}}, {{pay.billing_state}} {{pay.billing_zip}}</p>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+              <li class="btn btn-primary col-md-5 m-2" data-bs-toggle="modal" data-bs-target="#deletePay{{pay.payment_profile}}">Delete Pay Method</li>
+              {% if request.user.is_superuser %}
+                <li class="btn btn-primary col-md-5 m-2" data-bs-toggle="modal" data-bs-target="#singleCharge{{pay.payment_profile}}">Single Charge</li>
+              {% endif %}
+            </div>
         </div>
     </div>
 
+    {% with modal_name="deletePay" modal_ider=pay.payment_profile %}
+        {% include 'billing/delete_pay.html' %}
+    {% endwith %}
+
+    {% with modal_name="addPay" %}
+        {% include 'billing/add_pay.html' %}
+    {% endwith %}
+
+    {% if request.user.is_superuser %}
+        {% with modal_name="singleCharge" modal_ider=pay.payment_profile %}
+            {% include 'billing/single_charge.html' %}
+        {% endwith %}
+    {% endif %}
 {% endfor %}
     </div>

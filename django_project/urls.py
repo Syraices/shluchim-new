@@ -16,7 +16,8 @@ urlpatterns = [
     path('cart/', include("cart.urls")),
     path('action-queue/', include("actionables.urls")),
     path('coupons/', include("coupon.urls")),
-    path('crons/', include("cron_job.urls"))
+    path('crons/', include("cron_job.urls")),
+    path('billing/', include("billing.urls"))
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,17 @@
+{% extends 'stylers/modal.html' %}
+{% load crispy_forms_tags %}
+
+{% block modal-title %}Single Charge{% endblock %}
+
+{% block modal-body %}
+
+  <form action="{% url 'single_charge' user_id=user_id.id payment_profile=pay.payment_profile %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="text" name="amount" id="amount" >
+    </div>
+    <button class="btn btn-success" type="submit">Charge Once</button>
+  </form>
+
+{% endblock %}

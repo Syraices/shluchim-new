@@ -37,10 +37,7 @@
         <p>Total: {{total}}</p>
         <div class="row justify-content-between">
           <div class="col-md-5">
-            <form action="{% url 'checkout' payment_profile='918149880' %}" method="post">
-              {% csrf_token %}
-              <button class="btn btn-primary" type="submit">Checkout</button>
-            </form>
+            <a class="btn btn-primary" href="{% url 'checkout' amount=total %}" >Checkout</a>
           </div>
           <div class="col-md-5">
             <a class="btn btn-secondary" href="{% url 'add_plan' %}">Add Plan</a>

@@ -1,6 +1,7 @@
 <table class="table table-borderless table-hover">
   <thead>
   <tr>
+    <th>Name</th>
     <th>Order Number</th>
     <th>Active Number</th>
     {% if request.user.is_superuser %}<th>BAN</th> {% endif %}
@@ -15,6 +16,7 @@
   {% for sub in sub_list %}
   {% if not sub.is_cancelled and sub.is_active %}
   <tr>
+    <td onclick="{% if request.user.is_superuser %}window.location.href='{% url 'admin_user_page' user_id=sub.user_id.id %}'{% endif %}">{{sub.user_id.ship_fname}}{{sub.user_id.ship_lname}}</td>
     <td onclick="{% if request.user.is_superuser %}window.location.href='{% url 'admin_user_page' user_id=sub.user_id.id %}'{% endif %}">{{sub.id}}</td>
     <td onclick="{% if request.user.is_superuser %}window.location.href='{% url 'admin_user_page' user_id=sub.user_id.id %}'{% endif %}">{{sub.phone_number}}</td>
     {% if request.user.is_superuser %}<td>{{sub.ban_account.ban_number}}</td>{% endif %}
